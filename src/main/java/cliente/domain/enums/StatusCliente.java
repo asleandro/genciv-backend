@@ -1,0 +1,9 @@
+package cliente.domain.enums;
+
+public enum StatusCliente {
+
+    ATIVO,
+    INATIVO,
+    BLOQUEADO,
+    PENDENDENTE_APROVACAO
+}
