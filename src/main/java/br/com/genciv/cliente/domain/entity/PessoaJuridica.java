@@ -1,0 +1,57 @@
+package br.com.genciv.cliente.domain.entity;
+
+import br.com.genciv.cliente.domain.valueobject.*;
+import lombok.Getter;
+
+import java.util.Objects;
+import java.util.Optional;
+
+@Getter
+public class PessoaJuridica extends Cliente {
+
+    private CNPJ cnpj;
+    private RazaoSocial razaoSocial;
+    private String nomeFantasia;
+    private InscricaoEstadual inscricaoEstadual;
+
+    public PessoaJuridica(
+            ClienteId id,
+            Email email,
+            Telefone telefone,
+            Endereco endereco,
+            CNPJ cnpj,
+            RazaoSocial razaoSocial,
+            String nomeFantasia,
+            InscricaoEstadual inscricaoEstadual
+    ) {
+        super(id, email, telefone, endereco);
+
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+        this.nomeFantasia = Objects.requireNonNull(nomeFantasia);
+        this.inscricaoEstadual = inscricaoEstadual;
+    }
+
+    public boolean possuiInscricaoEstadual() {
+        return inscricaoEstadual != null;
+    }
+
+    public Optional<InscricaoEstadual> getInscricaoEstadual() {
+        return Optional.ofNullable(inscricaoEstadual);
+    }
+
+    public Optional<CNPJ> getCnpj() {
+        return Optional.ofNullable(cnpj);
+    }
+
+    public void alterarNomeFantasia(String nomeFantasia) {
+        this.nomeFantasia = Objects.requireNonNull(nomeFantasia, "Preencha o campo com o nome");
+        registrarHistorico("NOME_FANTASIA_ALTERADO");
+    }
+
+    public void alterarInscricaoEstadual(InscricaoEstadual inscricaoEstadual) {
+        this.inscricaoEstadual = inscricaoEstadual;
+        registrarHistorico("INSCRICAO_ESTADUAL_ALTERADA");
+    }
+
+}
