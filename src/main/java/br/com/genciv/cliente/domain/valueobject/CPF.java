@@ -4,11 +4,12 @@ import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.genciv.cliente.domain.exception.DocumentoInvalidoException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CPF {
+public final class CPF implements Serializable {
 
-    private static final CPFValidator validator = new CPFValidator();
+    private static final CPFValidator VALIDATOR = new CPFValidator();
 
     private final String valor;
 
@@ -18,22 +19,26 @@ public class CPF {
             throw new DocumentoInvalidoException("CPF não pode ser nulo");
         }
 
+        if(valor.isBlank()){
+            throw new DocumentoInvalidoException("CPF não pode ser vazio");
+        }
+
         String cpfLimpo = valor.replaceAll("[^0-9]", "");
 
         try {
-            validator.assertValid(cpfLimpo);
+            VALIDATOR.assertValid(cpfLimpo);
         } catch (InvalidStateException e) {
-            throw new DocumentoInvalidoException("CPF inválido");
+            throw new DocumentoInvalidoException("CPF informado é inválido");
         }
 
         this.valor = cpfLimpo;
     }
 
-    public String getValor() {
+    public String getNumero() {
         return valor;
     }
 
-    public String formatado() {
+    public String formatar() {
         return valor.substring(0, 3)
                 + "."
                 + valor.substring(3, 6)
@@ -45,7 +50,7 @@ public class CPF {
 
     @Override
     public String toString() {
-        return formatado();
+        return formatar();
     }
 
     @Override

@@ -47,6 +47,14 @@ public abstract class Cliente {
 
     protected void registrarHistorico(String evento) {
         //TODO: implementar futuramente: domain events, audit trail, outbox
+
+        /* placeholder para futuramente evoluir para:
+        * domain events
+        * audit trail
+        * outbox pattern
+        * event sourcing parcial
+        * logs operacionais
+         */
     }
 
     @Override

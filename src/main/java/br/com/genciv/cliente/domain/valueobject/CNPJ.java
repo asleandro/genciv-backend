@@ -4,9 +4,10 @@ import br.com.caelum.stella.validation.CNPJValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.genciv.cliente.domain.exception.DocumentoInvalidoException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CNPJ {
+public final class CNPJ implements Serializable {
 
     private static final CNPJValidator validator = new CNPJValidator();
 
@@ -23,7 +24,7 @@ public class CNPJ {
         try {
             validator.assertValid(cnpjLimpo);
         } catch (InvalidStateException e) {
-            throw new DocumentoInvalidoException("CNPJ inválido");
+            throw new DocumentoInvalidoException("CNPJ informado é inválido");
         }
         this.valor = cnpjLimpo;
     }
