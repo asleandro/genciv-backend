@@ -3,6 +3,9 @@ package br.com.genciv.cliente.domain.valueobject;
 import br.com.genciv.cliente.domain.exception.DocumentoInvalidoException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -16,52 +19,29 @@ class CPFTest {
     @DisplayName("Deve criar CPF válido removendo caracteres especiais")
     public void deveCriarCpfValido() {
 
-        CPF cpf = new CPF(CPF_VALIDO);
+        CPF cpf = new CPF(CPF_VALIDO_FORMATADO);
 
         assertThat(cpf).isNotNull();
-        assertThat(cpf.getNumero()).isEqualTo("52998224725");
+        assertThat(cpf.getNumero()).isEqualTo(CPF_VALIDO);
         assertThat(cpf.getNumero()).hasSize(11).containsOnlyDigits();
     }
 
-    @Test
-    public void deveCriarExcecaoQuandoCpfPossuirQuantidadeInvalidaDeDigitos() {
-        String cpfInvalido = "123.6667.741-711";
+    @ParameterizedTest(name =  "CPF inválido: [{0}]")
+    @NullAndEmptySource
+    @ValueSource(strings = {
+            " ",
+            "123",
+            "123.6667.411-771",
+    })
+    public void deveLancarExcecaoParaCpfsInvalidos(String cpfInvalido){
 
-        assertThrows(
-                DocumentoInvalidoException.class, () -> new CPF(cpfInvalido)
+        assertThrows(DocumentoInvalidoException.class,
+                () -> new CPF(cpfInvalido)
         );
     }
 
     @Test
-    public void deveLancarExcecaoQuandoCpfForNulo() {
-
-        DocumentoInvalidoException exception =
-                assertThrows(
-                        DocumentoInvalidoException.class, () -> new CPF(null)
-                );
-
-        assertThat(exception.getMessage()).isEqualTo("CPF não pode ser nulo");
-    }
-
-    @Test
-    public void deveLancarExcecaoQuandoCpfForBlank() {
-
-        DocumentoInvalidoException exception =
-                assertThrows(
-                        DocumentoInvalidoException.class, () -> new CPF(" ")
-                );
-        assertThat(exception.getMessage()).isEqualTo("CPF não pode ser vazio");
-    }
-
-    @Test
-    public void deveRemoverCaracteresEspeciaisDoCpf() {
-
-        CPF cpf = new CPF(CPF_VALIDO_FORMATADO);
-
-        assertThat("52998224725").isEqualTo(cpf.getNumero());
-    }
-
-    @Test
+    @DisplayName(("Deve criar CPFs iguais memo com com entradas em formatações diferentes"))
     public void deveConsiderarCpfsIguaisMesmoComFormatacoesDiferentes() {
 
         CPF cpfComMascara = new CPF(CPF_VALIDO_FORMATADO);
@@ -71,6 +51,7 @@ class CPFTest {
     }
 
     @Test
+    @DisplayName("Deve possuir mesmo hash code quando CPFs forem iguais")
     public void devePossuirMesmoHashCodeQuandoCpfsForemIguais() {
 
         CPF cpfComMascara = new CPF(CPF_VALIDO_FORMATADO);
@@ -82,16 +63,26 @@ class CPFTest {
     @Test
     public void deveFormatarCpfCorretamente() {
         CPF cpf = new CPF(CPF_VALIDO);
-        assertThat(cpf.formatar()).isEqualTo("529.982.247-25");
+        assertThat(cpf.formatar()).isEqualTo(CPF_VALIDO_FORMATADO);
     }
 
     @Test
+    @DisplayName("Não deve alterar estado interno ao formatar CPF")
     public void naoDeveAlterarEstadoInternoAoFormatarCpf() {
         CPF cpf = new CPF(CPF_VALIDO);
 
-        String valorOriginal = cpf.getNumero();
+        String numeroOriginal = cpf.getNumero();
         cpf.formatar();
-        assertThat(cpf.getNumero()).isEqualTo(valorOriginal);
+        assertThat(cpf.getNumero()).isEqualTo(numeroOriginal);
+    }
+
+    @Test
+    @DisplayName("Deve retornar CPF formatado no toString()")
+    public void deveRetornarCpfFormatadoNoToString(){
+        CPF cpf = new CPF(CPF_VALIDO);
+
+        assertThat(cpf.toString())
+                .isEqualTo(CPF_VALIDO_FORMATADO);
     }
 
 }
