@@ -194,7 +194,7 @@ public final class Endereco
                 .append("/")
                 .append(uf.name())
                 .append(" - CEP: ")
-                .append(cep.formatado());
+                .append(cep.formatar());
 
         return builder.toString();
     }

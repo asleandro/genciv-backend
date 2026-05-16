@@ -3,8 +3,12 @@ package br.com.genciv.cliente.domain.valueobject;
 import br.com.genciv.cliente.domain.exception.ValueObjectInvalidoException;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class CEP {
+
+    private static final Pattern CEP_PATTERN =
+            Pattern.compile("^\\d{8}$|\\d{5}-\\d{3}$");
 
     private final String valor;
 
@@ -14,21 +18,27 @@ public class CEP {
             throw new ValueObjectInvalidoException("CEP não pode ser nulo");
         }
 
+        if (valor.isBlank()) {
+            throw new ValueObjectInvalidoException("CEP não pode ser vazio");
+        }
+
+        if (!CEP_PATTERN.matcher(valor).matches()){
+            throw new ValueObjectInvalidoException("CEP inválido");
+        }
+
         String valorLimpo = valor.replaceAll("[^0-9]", "");
 
         if (!valorLimpo.matches("^[0-9]{8}$")) {
-            throw new ValueObjectInvalidoException(
-                    "CEP inválido"
-            );
+            throw new ValueObjectInvalidoException("CEP inválido");
         }
         this.valor = valorLimpo;
     }
 
-    public String getValor() {
+    public String getNumero() {
         return valor;
     }
 
-    public String formatado() {
+    public String formatar() {
         return valor.substring(0, 5)
                 + "-"
                 + valor.substring(5);
@@ -36,7 +46,7 @@ public class CEP {
 
     @Override
     public String toString() {
-        return formatado();
+        return formatar();
     }
 
     @Override
