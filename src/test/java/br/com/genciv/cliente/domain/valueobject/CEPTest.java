@@ -28,18 +28,10 @@ public class CEPTest {
 
     @ParameterizedTest(name = "CEP inválido [{0}]")
     @NullAndEmptySource
-    @ValueSource(strings = {
-            " ",
-            "123",
-            "1234567891011",
-            "123--225.74",
-            "456888-945"
-    })
+    @ValueSource(strings = {" ", "123", "1234567891011", "123--225.74", "456888-945"})
     public void deveLancarExcecaoParaCepsInvalidos(String cepInvalido) {
 
-        assertThrows(ValueObjectInvalidoException.class,
-                () -> new CEP(cepInvalido)
-        );
+        assertThrows(ValueObjectInvalidoException.class, () -> new CEP(cepInvalido));
     }
 
     @Test
@@ -49,8 +41,7 @@ public class CEPTest {
         CEP cepSemMascara = new CEP(CEP_VALIDO);
         CEP cepComMascara = new CEP(CEP_VALIDO_FORMATADO);
 
-        assertThat(cepSemMascara)
-                .isEqualTo(cepComMascara);
+        assertThat(cepSemMascara).isEqualTo(cepComMascara);
     }
 
     @Test
@@ -60,8 +51,7 @@ public class CEPTest {
         CEP cepSemMascara = new CEP(CEP_VALIDO);
         CEP cepComMascara = new CEP(CEP_VALIDO_FORMATADO);
 
-        assertThat(cepSemMascara.hashCode())
-                .isEqualTo(cepComMascara.hashCode());
+        assertThat(cepSemMascara.hashCode()).isEqualTo(cepComMascara.hashCode());
     }
 
     @Test
@@ -89,9 +79,7 @@ public class CEPTest {
 
         CEP cep = new CEP(CEP_VALIDO);
 
-        assertThat(cep.toString())
-                .isEqualTo(CEP_VALIDO_FORMATADO);
+        assertThat(cep.toString()).isEqualTo(CEP_VALIDO_FORMATADO);
     }
-
 
 }

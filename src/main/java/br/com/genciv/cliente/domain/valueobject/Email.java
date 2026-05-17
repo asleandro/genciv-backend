@@ -7,17 +7,30 @@ import java.util.regex.Pattern;
 
 public class Email {
 
+    private static final String EMAIL_REGEX =
+            "^(?!\\.)(?!.*\\.\\.)(?!.*\\.@)" +
+                    "[A-Za-z0-9._%+-]+@" +
+                    "([A-Za-z0-9-]+\\.)+" +
+                    "[A-Za-z]{2,}$";
+
     private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+            Pattern.compile(EMAIL_REGEX);
 
     private final String valor;
 
     public Email(String valor) {
 
-        if (valor == null || !EMAIL_PATTERN.matcher(valor).matches()) {
-            throw new ValueObjectInvalidoException("Email inválido");
+        if (valor == null) {
+            throw new ValueObjectInvalidoException("Email informado não pode ser null");
         }
-        this.valor = valor.toLowerCase();
+
+        String emailNormalizado = valor.trim().toLowerCase();
+
+        if (!EMAIL_PATTERN.matcher(valor).matches()){
+            throw new ValueObjectInvalidoException("Email informado não é válido");
+        }
+
+        this.valor = emailNormalizado;
     }
 
     public String getValor() {
@@ -38,5 +51,10 @@ public class Email {
     @Override
     public int hashCode() {
         return Objects.hash(valor);
+    }
+
+    @Override
+    public String toString(){
+        return valor;
     }
 }
