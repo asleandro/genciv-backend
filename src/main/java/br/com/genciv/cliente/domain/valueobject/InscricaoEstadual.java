@@ -43,5 +43,15 @@ public final class InscricaoEstadual {
         return valor;
     }
 
+    @Override
+    public boolean equals(Object o){
+
+        if (this == o) return true;
+
+        if (!(o instanceof InscricaoEstadual inscricaoEstadual)) return false;
+
+        return Objects.equals(valor, inscricaoEstadual.valor);
+    }
+
 
 }
