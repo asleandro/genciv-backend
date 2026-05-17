@@ -23,6 +23,8 @@ public final class Endereco
 
     private static final int TAMANHO_MAXIMO_CIDADE = 80;
 
+    private static final int TAMANHO_MAXIMO_NUMERO = 20;
+
     private final String logradouro;
 
     private final String numero;
@@ -49,6 +51,7 @@ public final class Endereco
 
         this.logradouro =
                 normalizarObrigatorio(
+                        "Logradouro",
                         logradouro,
                         "Logradouro é obrigatório",
                         TAMANHO_MAXIMO_LOGRADOURO
@@ -56,9 +59,10 @@ public final class Endereco
 
         this.numero =
                 normalizarObrigatorio(
+                        "Número",
                         numero,
                         "Número é obrigatório",
-                        20
+                        TAMANHO_MAXIMO_NUMERO
                 );
 
         this.complemento =
@@ -69,6 +73,7 @@ public final class Endereco
 
         this.bairro =
                 normalizarObrigatorio(
+                        "Bairro",
                         bairro,
                         "Bairro é obrigatório",
                         TAMANHO_MAXIMO_BAIRRO
@@ -76,34 +81,33 @@ public final class Endereco
 
         this.cidade =
                 normalizarObrigatorio(
+                        "Cidade",
                         cidade,
                         "Cidade é obrigatória",
                         TAMANHO_MAXIMO_CIDADE
                 );
 
-        this.uf =
-                Objects.requireNonNull(
-                        uf,
-                        "UF é obrigatória"
-                );
+        if (uf == null) {
+            throw new EnderecoInvalidoException("UF é obrigatória");
+        }
+        this.uf = uf;
 
-        this.cep =
-                Objects.requireNonNull(
-                        cep,
-                        "CEP é obrigatório"
-                );
+        if (cep == null) {
+            throw new EnderecoInvalidoException("CEP é obrigatório");
+        }
+        this.cep = cep;
     }
 
     private String normalizarObrigatorio(
+            String nomeCampo,
             String valor,
             String mensagemErro,
             int tamanhoMaximo
     ) {
 
-        Objects.requireNonNull(
-                valor,
-                mensagemErro
-        );
+        if (valor == null) {
+            throw new EnderecoInvalidoException(mensagemErro);
+        }
 
         String valorNormalizado =
                 normalizar(valor);
@@ -119,8 +123,8 @@ public final class Endereco
 
             throw new EnderecoInvalidoException(
                     String.format(
-                            "Valor excede tamanho máximo permitido de %d caracteres",
-                            tamanhoMaximo
+                            "%s excede tamanho máximo permitido de %d caracteres",
+                            nomeCampo,tamanhoMaximo
                     )
             );
         }
@@ -203,10 +207,9 @@ public final class Endereco
             UnidadeFederativa uf
     ) {
 
-        Objects.requireNonNull(
-                uf,
-                "UF é obrigatória"
-        );
+        if (uf == null) {
+            throw new EnderecoInvalidoException("UF é obrigatória");
+        }
 
         return this.uf == uf;
     }
