@@ -58,13 +58,12 @@ public class RazaoSocial implements Serializable {
         validarNaoVazio(valor);
         validarTamanho(valor);
         validarCaracteres(valor);
-        validarNaoNumerico(valor);
         validarPossuiLetras(valor);
     }
 
     private void validarNaoVazio(String valor) {
         if (valor.isBlank()) {
-            throw new RazaoSocialInvalidaException("Razao social não pode ser vazia");
+            throw new RazaoSocialInvalidaException("Razão social não pode ser vazia");
         }
     }
 
@@ -85,14 +84,6 @@ public class RazaoSocial implements Serializable {
     private void validarCaracteres(String valor) {
         if (!CARACTERES_VALIDOS.matcher(valor).matches()) {
             throw new RazaoSocialInvalidaException("Razão social possui caracteres inválidos");
-        }
-    }
-
-    private void validarNaoNumerico(String valor) {
-        String valorSemEspacos = valor.replace(" ", "");
-
-        if (APENAS_NUMEROS.matcher(valorSemEspacos).matches()) {
-            throw new RazaoSocialInvalidaException("Razão social não pode conter apenas números");
         }
     }
 
