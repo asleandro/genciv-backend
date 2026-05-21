@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -13,15 +14,17 @@ public class RazaoSocial implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
     private static final int TAMANHO_MINIMO = 3;
     private static final int TAMANHO_MAXIMO = 250;
-    //TODO: inverter lógica de validação de caracteres
-    private static final Pattern CARACTERES_INVALIDOS =
-            Pattern.compile("[^\\p{L}\\p{N}\\s\\.\\-\\/&()]");
+
+    private static final Pattern CARACTERES_VALIDOS =
+            Pattern.compile("^[\\p{L}0-9 .&()/'-]+$");
 
     private static final Pattern APENAS_NUMEROS =
             Pattern.compile("^\\d+$");
+
+    private static final Pattern POSSUI_LETRA =
+            Pattern.compile(".*\\p{L}.*");
 
     private final String valor;
 
@@ -37,15 +40,17 @@ public class RazaoSocial implements Serializable {
         String texto = removerCaracteresControle(valor);
         texto = removerEspacosDuplicados(texto);
         texto = texto.trim();
-        texto = texto.toUpperCase();
+        texto = texto.toUpperCase(Locale.ROOT);
         return texto;
     }
 
     private String removerCaracteresControle(String valor) {
+
         return valor.replaceAll("[\\n\\r\\t]", " ");
     }
 
     private String removerEspacosDuplicados(String valor) {
+
         return valor.replaceAll("\\s+", " ");
     }
 
@@ -54,6 +59,7 @@ public class RazaoSocial implements Serializable {
         validarTamanho(valor);
         validarCaracteres(valor);
         validarNaoNumerico(valor);
+        validarPossuiLetras(valor);
     }
 
     private void validarNaoVazio(String valor) {
@@ -77,23 +83,32 @@ public class RazaoSocial implements Serializable {
     }
 
     private void validarCaracteres(String valor) {
-        if (CARACTERES_INVALIDOS.matcher(valor).find()) {
+        if (!CARACTERES_VALIDOS.matcher(valor).matches()) {
             throw new RazaoSocialInvalidaException("Razão social possui caracteres inválidos");
         }
     }
 
     private void validarNaoNumerico(String valor) {
-        String valorSemEspacos = valor.replaceAll("\\s+", "");
+        String valorSemEspacos = valor.replace(" ", "");
 
         if (APENAS_NUMEROS.matcher(valorSemEspacos).matches()) {
             throw new RazaoSocialInvalidaException("Razão social não pode conter apenas números");
         }
     }
 
+    private void validarPossuiLetras(String valor) {
+        if (!POSSUI_LETRA.matcher(valor).matches()) {
+            throw new RazaoSocialInvalidaException(
+                    "Razão social deve possuir ao menos uma letra"
+            );
+        }
+    }
+
+    //TODO: Implementar com stream
     public String formatado() {
 
         String[] palavras =
-                valor.toLowerCase().split(" ");
+                valor.toLowerCase(Locale.ROOT).split(" ");
 
         StringBuilder builder =
                 new StringBuilder();
@@ -107,7 +122,7 @@ public class RazaoSocial implements Serializable {
             if (ehSiglaEmpresarial(palavra)) {
 
                 builder.append(
-                        palavra.toUpperCase()
+                        palavra.toUpperCase(Locale.ROOT)
                 );
 
             } else {
@@ -149,7 +164,7 @@ public class RazaoSocial implements Serializable {
         );
 
         return valor.contains(
-                texto.toUpperCase()
+                texto.toUpperCase(Locale.ROOT)
         );
     }
 
