@@ -20,9 +20,6 @@ public class RazaoSocial implements Serializable {
     private static final Pattern CARACTERES_VALIDOS =
             Pattern.compile("^[\\p{L}0-9 .&()/'-]+$");
 
-    private static final Pattern APENAS_NUMEROS =
-            Pattern.compile("^\\d+$");
-
     private static final Pattern POSSUI_LETRA =
             Pattern.compile(".*\\p{L}.*");
 
