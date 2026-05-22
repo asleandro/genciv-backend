@@ -30,7 +30,10 @@ public class RazaoSocial implements Serializable {
     private final String valor;
 
     public RazaoSocial(String valor) {
-        Objects.requireNonNull(valor, "Razão Social é obrigatória");
+
+        if (valor == null){
+            throw new RazaoSocialInvalidaException("Razão Social é obrigatória");
+        }
 
         String valorNormalizado = normalizar(valor);
         validar(valorNormalizado);

@@ -69,8 +69,8 @@ public class RazaoSocialTest {
     @DisplayName("Deve lançar exceção se a razão social for nula")
     public void deveLancarExcecaoSeRazaoSocialForNula(){
 
-        NullPointerException exception = assertThrows(
-                NullPointerException.class,
+        RazaoSocialInvalidaException exception = assertThrows(
+                RazaoSocialInvalidaException.class,
                 () -> new RazaoSocial(null)
         );
 
