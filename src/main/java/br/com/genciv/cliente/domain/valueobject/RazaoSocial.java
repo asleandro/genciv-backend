@@ -7,6 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @Getter
@@ -22,6 +23,9 @@ public class RazaoSocial implements Serializable {
 
     private static final Pattern POSSUI_LETRA =
             Pattern.compile(".*\\p{L}.*");
+
+    private static final Set<String> SIGLAS_EMPRESARIAIS =
+            Set.of("LTDA", "S/A", "ME", "MEI", "EPP", "EIRELI");
 
     private final String valor;
 
@@ -92,7 +96,6 @@ public class RazaoSocial implements Serializable {
         }
     }
 
-    //TODO: Implementar com stream
     public String formatado() {
 
         String[] palavras =
@@ -134,12 +137,9 @@ public class RazaoSocial implements Serializable {
             String palavra
     ) {
 
-        return palavra.equalsIgnoreCase("LTDA")
-                || palavra.equalsIgnoreCase("S/A")
-                || palavra.equalsIgnoreCase("ME")
-                || palavra.equalsIgnoreCase("MEI")
-                || palavra.equalsIgnoreCase("EPP")
-                || palavra.equalsIgnoreCase("EIRELI");
+        return SIGLAS_EMPRESARIAIS.contains(
+                palavra.toUpperCase(Locale.ROOT)
+        );
     }
 
     public boolean contem(
