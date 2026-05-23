@@ -5,12 +5,10 @@ import br.com.genciv.cliente.domain.exception.EnderecoInvalidoException;
 import lombok.Getter;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
-public final class Endereco
-        implements Serializable {
+public final class Endereco {
 
     @Serial
     private static final long serialVersionUID = 1L;

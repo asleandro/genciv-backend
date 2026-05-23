@@ -5,7 +5,7 @@ import br.com.genciv.cliente.domain.exception.ValueObjectInvalidoException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Email {
+public final class Email {
 
     private static final String EMAIL_REGEX =
             "^(?!\\.)(?!.*\\.\\.)(?!.*\\.@)" +
@@ -26,7 +26,7 @@ public class Email {
 
         String emailNormalizado = valor.trim().toLowerCase();
 
-        if (!EMAIL_PATTERN.matcher(valor).matches()){
+        if (!EMAIL_PATTERN.matcher(valor).matches()) {
             throw new ValueObjectInvalidoException("Email informado não é válido");
         }
 
@@ -54,7 +54,7 @@ public class Email {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return valor;
     }
 }

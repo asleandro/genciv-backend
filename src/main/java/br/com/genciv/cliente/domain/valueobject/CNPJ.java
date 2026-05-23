@@ -4,10 +4,9 @@ import br.com.caelum.stella.validation.CNPJValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.genciv.cliente.domain.exception.DocumentoInvalidoException;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public final class CNPJ implements Serializable {
+public final class CNPJ {
 
     private static final CNPJValidator validator = new CNPJValidator();
 

@@ -3,7 +3,7 @@ package br.com.genciv.cliente.domain.valueobject;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ClienteId {
+public final class ClienteId {
 
     private final UUID valor;
 

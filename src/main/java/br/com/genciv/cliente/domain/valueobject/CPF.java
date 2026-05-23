@@ -4,10 +4,9 @@ import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.genciv.cliente.domain.exception.DocumentoInvalidoException;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public final class CPF implements Serializable {
+public final class CPF {
 
     private static final CPFValidator VALIDATOR = new CPFValidator();
 
@@ -19,7 +18,7 @@ public final class CPF implements Serializable {
             throw new DocumentoInvalidoException("CPF não pode ser nulo");
         }
 
-        if(valor.isBlank()){
+        if (valor.isBlank()) {
             throw new DocumentoInvalidoException("CPF não pode ser vazio");
         }
 

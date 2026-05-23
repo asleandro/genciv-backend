@@ -4,14 +4,13 @@ import br.com.genciv.cliente.domain.exception.RazaoSocialInvalidaException;
 import lombok.Getter;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 @Getter
-public class RazaoSocial implements Serializable {
+public final class RazaoSocial {
 
     @Serial
     private static final long serialVersionUID = 1L;

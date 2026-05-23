@@ -5,7 +5,7 @@ import br.com.genciv.cliente.domain.exception.ValueObjectInvalidoException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class CEP {
+public final class CEP {
 
     private static final Pattern CEP_PATTERN =
             Pattern.compile("^\\d{8}$|\\d{5}-\\d{3}$");
