@@ -1,23 +1,51 @@
 package br.com.genciv.cliente.domain.valueobject;
 
 import br.com.genciv.cliente.domain.exception.ValueObjectInvalidoException;
+import lombok.Getter;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public final class Telefone {
 
     private final String ddd;
     private final String numero;
 
+    @Getter
+    private final String valor;
+
     private static final int PREFIXO_FIXO = 4;
     private static final int PREFIXO_CELULAR = 5;
 
+    private static final Pattern TELEFONE_VALIDO =
+            Pattern.compile("[0-9()\\-\\s]+");
+
     public Telefone(String ddd, String numero) {
 
+        if (ddd == null) {
+            throw new ValueObjectInvalidoException("DDD não pode ser nulo");
+        }
+
+        if (numero == null) {
+            throw new ValueObjectInvalidoException("Número não pode ser nulo");
+        }
+
+        validarCaracteresPermitidos("DDD", ddd);
+        validarCaracteresPermitidos("Número", numero);
+
+
         this.ddd = normalizar("DDD", ddd);
-        this.numero = normalizar("número", numero);
+        this.numero = normalizar("Número", numero);
 
         validar();
+
+        this.valor = this.ddd + this.numero;
+    }
+
+    private void validarCaracteresPermitidos(String campo, String valor){
+        if (!TELEFONE_VALIDO.matcher(valor).matches()) {
+            throw new ValueObjectInvalidoException(campo + " possui caracteres inválidos");
+        }
     }
 
     private void validar() {
@@ -31,7 +59,7 @@ public final class Telefone {
         }
 
         if (numero.isBlank()) {
-            throw new ValueObjectInvalidoException("número não pode ser vazio");
+            throw new ValueObjectInvalidoException("Número não pode ser vazio");
         }
 
         if (numero.length() != 8 && numero.length() != 9) {
@@ -41,10 +69,6 @@ public final class Telefone {
     }
 
     private String normalizar(String campo, String valor) {
-
-        if (valor == null) {
-            throw new ValueObjectInvalidoException(campo + " não pode ser nulo");
-        }
 
         return valor.replaceAll("\\D", "");
 
