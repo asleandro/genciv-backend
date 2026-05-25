@@ -17,7 +17,7 @@ public final class Telefone {
     private static final int PREFIXO_FIXO = 4;
     private static final int PREFIXO_CELULAR = 5;
 
-    private static final Pattern TELEFONE_VALIDO =
+    private static final Pattern CARACTERES_PERMITIDOS =
             Pattern.compile("[0-9()\\-\\s]+");
 
     public Telefone(String ddd, String numero) {
@@ -34,8 +34,8 @@ public final class Telefone {
         validarCaracteresPermitidos("Número", numero);
 
 
-        this.ddd = normalizar("DDD", ddd);
-        this.numero = normalizar("Número", numero);
+        this.ddd = normalizar(ddd);
+        this.numero = normalizar(numero);
 
         validar();
 
@@ -43,7 +43,7 @@ public final class Telefone {
     }
 
     private void validarCaracteresPermitidos(String campo, String valor){
-        if (!TELEFONE_VALIDO.matcher(valor).matches()) {
+        if (!CARACTERES_PERMITIDOS.matcher(valor).matches()) {
             throw new ValueObjectInvalidoException(campo + " possui caracteres inválidos");
         }
     }
@@ -63,12 +63,12 @@ public final class Telefone {
         }
 
         if (numero.length() != 8 && numero.length() != 9) {
-            throw new ValueObjectInvalidoException("Número inválido");
+            throw new ValueObjectInvalidoException("Número com tamanho inválido");
         }
 
     }
 
-    private String normalizar(String campo, String valor) {
+    private String normalizar(String valor) {
 
         return valor.replaceAll("\\D", "");
 
