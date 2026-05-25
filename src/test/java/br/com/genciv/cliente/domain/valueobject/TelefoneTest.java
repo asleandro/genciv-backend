@@ -13,7 +13,7 @@ public class TelefoneTest {
     private final String DDD_VALIDO = "21";
 
     @Test
-    public void deveCriarUmTelefoneVálido() {
+    public void deveCriarUmTelefoneValido() {
 
         String numero = "99999-9999";
 
