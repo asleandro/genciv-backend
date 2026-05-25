@@ -1,6 +1,7 @@
 package br.com.genciv.cliente.domain.valueobject;
 
 import br.com.genciv.cliente.domain.exception.ValueObjectInvalidoException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -22,6 +23,7 @@ public class TelefoneTest {
     }
 
     @Test
+    @DisplayName("Deve formatar telefone fixo e celular corretamente")
     public void deveFormatarTelefoneFixoECelularCorretamente() {
 
         String numeroFixo = "2222-2222";
@@ -46,7 +48,8 @@ public class TelefoneTest {
     }
 
     @Test
-    public void deveConsiderarNumerosIguaisMesmoComFormatacaoDiferente(){
+    @DisplayName("Deve considerar números iguais mesmo com formatação diferente")
+    public void deveConsiderarNumerosIguaisMesmoComFormatacaoDiferente() {
         String numero = "22222222";
         String numero_formatado = "2222-2222";
 
@@ -57,7 +60,8 @@ public class TelefoneTest {
     }
 
     @Test
-    public void devePossuirMesmaHashCodeQuandoNumerosForemIguais(){
+    @DisplayName("Deve possuir mesma hash code quando números forem iguais")
+    public void devePossuirMesmaHashCodeQuandoNumerosForemIguais() {
         String numero = "22222222";
         String numero_formatado = "2222-2222";
 
@@ -68,7 +72,30 @@ public class TelefoneTest {
     }
 
     @Test
-    public void deveLancarExcecaoQuandoDDDOuNumeroForVazio(){
+    @DisplayName("Deve identificar telefone fixo corretamente")
+    public void deveIdentificarTelefoneFixoCorretamente() {
+
+        Telefone telefone = new Telefone("21", "2222-2222");
+
+        assertThat(telefone.ehFixo()).isTrue();
+        assertThat(telefone.ehCelular()).isFalse();
+
+    }
+
+    @Test
+    @DisplayName("Deve identificar telefone celular corretamente")
+    public void deveIdentificarTelefoneCelularCorretamente() {
+
+        Telefone telefone = new Telefone("21", "99999-9999");
+
+        assertThat(telefone.ehCelular()).isTrue();
+        assertThat(telefone.ehFixo()).isFalse();
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando DDD ou número for vazio")
+    public void deveLancarExcecaoQuandoDDDOuNumeroForVazio() {
 
         ValueObjectInvalidoException exception = assertThrows(
                 ValueObjectInvalidoException.class,
@@ -87,7 +114,8 @@ public class TelefoneTest {
     }
 
     @Test
-    public void deveLancarExcecaoQuandoDDDOuNumeroForNulo(){
+    @DisplayName("Deve lançar exceção quando DDD ou número for nulo")
+    public void deveLancarExcecaoQuandoDDDOuNumeroForNulo() {
 
         ValueObjectInvalidoException exception = assertThrows(
                 ValueObjectInvalidoException.class,
@@ -105,12 +133,22 @@ public class TelefoneTest {
 
     }
 
-    @ParameterizedTest
+
+    @ParameterizedTest(name = "[{index}] número inválido: [{0}]")
+
     @ValueSource(strings = {
-            "#999-9999",
-            "#$%%9999-9999"
+            "",
+            "#99999-9999",
+            "2222*2222",
+            "2222=2222",
+            "99a99-9999",
+            "2222@2222",
+            "９9999-8888",
+            "99999ç888",
+            "99999á888"
     })
-    public void deveLancarExcecaoQuandoNumeroPossuirCaracteresInvalidos(String numero){
+    @DisplayName("Deve lançar exceção quando número possuir caracteres inválidos")
+    public void deveLancarExcecaoQuandoNumeroPossuirCaracteresInvalidos(String numero) {
         ValueObjectInvalidoException exception = assertThrows(
                 ValueObjectInvalidoException.class,
                 () -> new Telefone(DDD_VALIDO, numero)
@@ -119,8 +157,41 @@ public class TelefoneTest {
         assertThat(exception.getMessage()).isEqualTo("Número possui caracteres inválidos");
     }
 
+    @ParameterizedTest(name = "[{index}] DDD inválido: [{0}]")
+    @ValueSource(strings = {
+            "",
+            "#1",
+            "AB",
+            "2a",
+    })
+    @DisplayName("Deve lançar exceção quando DDD possuir caracteres inválidos")
+    public void deveLancarExcecaoQuandoDDDPossuirCaracteresInvalidos(String ddd) {
+        ValueObjectInvalidoException exception = assertThrows(
+                ValueObjectInvalidoException.class,
+                () -> new Telefone(ddd, "22222222")
+        );
 
+        assertThat(exception.getMessage()).isEqualTo("DDD possui caracteres inválidos");
+    }
 
+    @ParameterizedTest(name = "[{index}] tamanho inválido: [{0}]")
+    @ValueSource(strings = {
+            "123",
+            "1234567",
+            "1234567890"
+
+    })
+    @DisplayName("Deve lançar exceção quando número possuir tamanho inválido")
+    public void deveLancarExcecaoQuandoNumeroPossuirTamanhoInvalido(String valor) {
+
+        ValueObjectInvalidoException exception = assertThrows(
+                ValueObjectInvalidoException.class,
+                () -> new Telefone(DDD_VALIDO, valor)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Número com tamanho inválido");
+
+    }
 
 
 }
