@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class EmailTest {
 
-    @ParameterizedTest(name = "[{index}] Email válido:[{0}]")
+    @ParameterizedTest(name = "[{index}] Email válido: [{0}]")
     @ValueSource(strings = {
             "genciv@genciv.com",
             "genciv@genciv.com.br",
@@ -27,7 +27,7 @@ public class EmailTest {
         assertThat(emailValido.getValor()).isEqualTo(email);
     }
 
-    @ParameterizedTest(name = "[{index}] Email inválido:[{0}]")
+    @ParameterizedTest(name = "[{index}] Email inválido: [{0}]")
     @NullAndEmptySource
     @ValueSource(strings = {
             " ",
