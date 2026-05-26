@@ -1,7 +1,5 @@
 package br.com.genciv.cliente.domain.entity;
 
-import br.com.genciv.cliente.domain.enums.StatusCliente;
-import br.com.genciv.cliente.domain.exception.ClienteInativoException;
 import br.com.genciv.cliente.domain.valueobject.ClienteId;
 import br.com.genciv.cliente.domain.valueobject.Email;
 import br.com.genciv.cliente.domain.valueobject.Endereco;
