@@ -19,8 +19,8 @@ public class PessoaFisica extends Cliente{
             Email email,
             Telefone telefone,
             Endereco endereco,
-            CPF cpf,
             String nomeCompleto,
+            CPF cpf,
             LocalDate dataNascimento
     ){
         super(id, email, telefone, endereco);

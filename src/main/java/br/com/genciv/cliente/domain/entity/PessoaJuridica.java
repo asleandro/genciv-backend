@@ -19,9 +19,9 @@ public class PessoaJuridica extends Cliente {
             Email email,
             Telefone telefone,
             Endereco endereco,
-            CNPJ cnpj,
-            RazaoSocial razaoSocial,
             String nomeFantasia,
+            RazaoSocial razaoSocial,
+            CNPJ cnpj,
             InscricaoEstadual inscricaoEstadual
     ) {
         super(id, email, telefone, endereco);
