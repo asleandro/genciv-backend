@@ -6,7 +6,6 @@ import br.com.genciv.cliente.domain.valueobject.CPF;
 import br.com.genciv.cliente.domain.valueobject.ClienteId;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public interface ClienteRepository {
 

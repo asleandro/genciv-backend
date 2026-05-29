@@ -11,7 +11,6 @@ import br.com.genciv.cliente.domain.valueobject.ClienteId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 public class ClienteRepositoryEmMemoria implements ClienteRepository {
 
@@ -74,6 +73,5 @@ public class ClienteRepositoryEmMemoria implements ClienteRepository {
     public void remover(ClienteId id) {
         banco.remove(id);
     }
-
 
 }
