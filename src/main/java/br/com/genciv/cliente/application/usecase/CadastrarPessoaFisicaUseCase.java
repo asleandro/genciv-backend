@@ -11,11 +11,11 @@ import br.com.genciv.cliente.domain.valueobject.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class CadastrarClienteUseCase {
+public class CadastrarPessoaFisicaUseCase {
 
     private final ClienteRepository repository;
 
-    public CadastrarClienteUseCase(ClienteRepository repository) {
+    public CadastrarPessoaFisicaUseCase(ClienteRepository repository) {
         this.repository = repository;
     }
 

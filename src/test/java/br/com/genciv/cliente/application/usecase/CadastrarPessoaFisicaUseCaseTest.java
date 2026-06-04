@@ -12,15 +12,15 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CadastrarClienteUseCaseTest {
+public class CadastrarPessoaFisicaUseCaseTest {
 
     ClienteRepository repository;
-    CadastrarClienteUseCase useCase;
+    CadastrarPessoaFisicaUseCase useCase;
 
     @BeforeEach
     void setup() {
         repository = new ClienteRepositoryEmMemoria();
-        useCase = new CadastrarClienteUseCase(repository);
+        useCase = new CadastrarPessoaFisicaUseCase(repository);
     }
 
     CadastrarPessoaFisicaRequest request = new CadastrarPessoaFisicaRequest(
