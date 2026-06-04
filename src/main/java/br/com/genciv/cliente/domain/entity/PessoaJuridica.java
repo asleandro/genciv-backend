@@ -3,6 +3,7 @@ package br.com.genciv.cliente.domain.entity;
 import br.com.genciv.cliente.domain.valueobject.*;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,9 +25,10 @@ public class PessoaJuridica extends Cliente {
             RazaoSocial razaoSocial,
             CNPJ cnpj,
             InscricaoEstadual inscricaoEstadual,
-            InscricaoMunicipal inscricaoMunicipal
+            InscricaoMunicipal inscricaoMunicipal,
+            LocalDateTime dataCadastro
     ) {
-        super(id, email, telefone, endereco);
+        super(id, email, telefone, endereco, dataCadastro);
 
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;

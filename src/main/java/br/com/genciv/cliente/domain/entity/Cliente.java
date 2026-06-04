@@ -22,13 +22,14 @@ public abstract class Cliente {
             ClienteId id,
             Email email,
             Telefone telefone,
-            Endereco endereco
+            Endereco endereco,
+            LocalDateTime dataCadastro
     ){
         this.id = Objects.requireNonNull(id);
         this.email = Objects.requireNonNull(email);
         this.telefone = telefone;
         this.endereco = endereco;
-        this.dataCadastro = LocalDateTime.now();
+        this.dataCadastro = Objects.requireNonNull(dataCadastro);
     }
 
     public void alterarEndereco(Endereco endereco){

@@ -4,6 +4,7 @@ import br.com.genciv.cliente.domain.valueobject.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,9 +22,10 @@ public class PessoaFisica extends Cliente{
             Endereco endereco,
             String nomeCompleto,
             CPF cpf,
-            LocalDate dataNascimento
+            LocalDate dataNascimento,
+            LocalDateTime dataCadastro
     ){
-        super(id, email, telefone, endereco);
+        super(id, email, telefone, endereco,dataCadastro);
 
         this.cpf = cpf;
         this.nomeCompleto = Objects.requireNonNull(nomeCompleto);
