@@ -13,6 +13,7 @@ public class PessoaJuridica extends Cliente {
     private RazaoSocial razaoSocial;
     private String nomeFantasia;
     private InscricaoEstadual inscricaoEstadual;
+    private InscricaoMunicipal inscricaoMunicipal;
 
     public PessoaJuridica(
             ClienteId id,
@@ -22,7 +23,8 @@ public class PessoaJuridica extends Cliente {
             String nomeFantasia,
             RazaoSocial razaoSocial,
             CNPJ cnpj,
-            InscricaoEstadual inscricaoEstadual
+            InscricaoEstadual inscricaoEstadual,
+            InscricaoMunicipal inscricaoMunicipal
     ) {
         super(id, email, telefone, endereco);
 
@@ -30,14 +32,23 @@ public class PessoaJuridica extends Cliente {
         this.razaoSocial = razaoSocial;
         this.nomeFantasia = Objects.requireNonNull(nomeFantasia);
         this.inscricaoEstadual = inscricaoEstadual;
+        this.inscricaoMunicipal = inscricaoMunicipal;
     }
 
     public boolean possuiInscricaoEstadual() {
         return inscricaoEstadual != null;
     }
 
+    public boolean possuiInscricaoMunicipal() {
+        return inscricaoMunicipal != null;
+    }
+
     public Optional<InscricaoEstadual> getInscricaoEstadual() {
         return Optional.ofNullable(inscricaoEstadual);
+    }
+
+    public Optional<InscricaoMunicipal> getInscricaoMunicipal() {
+        return Optional.ofNullable(inscricaoMunicipal);
     }
 
     public Optional<CNPJ> getCnpj() {
