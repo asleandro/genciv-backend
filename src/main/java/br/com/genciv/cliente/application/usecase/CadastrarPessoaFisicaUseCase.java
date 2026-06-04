@@ -2,25 +2,32 @@ package br.com.genciv.cliente.application.usecase;
 
 import br.com.genciv.cliente.application.dto.CadastrarPessoaFisicaRequest;
 import br.com.genciv.cliente.application.mapper.EnderecoMapper;
-import br.com.genciv.cliente.domain.entity.Cliente;
 import br.com.genciv.cliente.domain.entity.PessoaFisica;
-import br.com.genciv.cliente.domain.enums.UnidadeFederativa;
 import br.com.genciv.cliente.domain.exception.RegraNegocioException;
 import br.com.genciv.cliente.domain.repository.ClienteRepository;
-import br.com.genciv.cliente.domain.valueobject.*;
+import br.com.genciv.cliente.domain.valueobject.CPF;
+import br.com.genciv.cliente.domain.valueobject.ClienteId;
+import br.com.genciv.cliente.domain.valueobject.Email;
+import br.com.genciv.cliente.domain.valueobject.Telefone;
+import br.com.genciv.shared.application.ClockProvider;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class CadastrarPessoaFisicaUseCase {
 
     private final ClienteRepository repository;
+    private final ClockProvider clockProvider;
 
-    public CadastrarPessoaFisicaUseCase(ClienteRepository repository) {
+    public CadastrarPessoaFisicaUseCase(ClienteRepository repository, ClockProvider clockProvider) {
         this.repository = repository;
+        this.clockProvider = clockProvider;
     }
 
     public PessoaFisica executar(CadastrarPessoaFisicaRequest request) {
+
+        LocalDateTime dataCadastro = clockProvider.now();
 
         CPF cpf = request.cpf() != null
                 ? new CPF(request.cpf())
@@ -50,7 +57,8 @@ public class CadastrarPessoaFisicaUseCase {
                         EnderecoMapper.toDomain(request.endereco()),
                         request.nomeCompleto(),
                         cpf,
-                        dataNascimento
+                        dataNascimento,
+                        dataCadastro
                 );
 
         repository.salvar(cliente);
