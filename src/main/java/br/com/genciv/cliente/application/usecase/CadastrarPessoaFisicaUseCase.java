@@ -1,6 +1,7 @@
 package br.com.genciv.cliente.application.usecase;
 
 import br.com.genciv.cliente.application.dto.CadastrarPessoaFisicaRequest;
+import br.com.genciv.cliente.application.mapper.EnderecoMapper;
 import br.com.genciv.cliente.domain.entity.Cliente;
 import br.com.genciv.cliente.domain.entity.PessoaFisica;
 import br.com.genciv.cliente.domain.enums.UnidadeFederativa;
@@ -19,7 +20,7 @@ public class CadastrarPessoaFisicaUseCase {
         this.repository = repository;
     }
 
-    public Cliente executar(CadastrarPessoaFisicaRequest request) {
+    public PessoaFisica executar(CadastrarPessoaFisicaRequest request) {
 
         CPF cpf = request.cpf() != null
                 ? new CPF(request.cpf())
@@ -46,31 +47,14 @@ public class CadastrarPessoaFisicaUseCase {
                                 request.ddd(),
                                 request.telefone()
                         ),
-                        criarEndereco(request),
+                        EnderecoMapper.toDomain(request.endereco()),
                         request.nomeCompleto(),
                         cpf,
                         dataNascimento
                 );
 
-        return repository.salvar(cliente);
-    }
-
-    private Endereco criarEndereco(CadastrarPessoaFisicaRequest request) {
-
-        UnidadeFederativa uf = request.uf() != null
-                ? UnidadeFederativa.valueOf(request.uf().trim().toUpperCase())
-                : null;
-
-        CEP cep = request.cep() != null ? new CEP(request.cep()) : null;
-
-        return new Endereco(
-                request.logradouro(),
-                request.numero(),
-                request.complemento(),
-                request.bairro(),
-                request.cidade(),
-                uf,
-                cep);
+        repository.salvar(cliente);
+        return cliente;
     }
 
 }

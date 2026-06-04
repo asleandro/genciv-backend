@@ -1,6 +1,7 @@
 package br.com.genciv.cliente.application.usecase;
 
 import br.com.genciv.cliente.application.dto.CadastrarPessoaFisicaRequest;
+import br.com.genciv.cliente.application.dto.EnderecoRequest;
 import br.com.genciv.cliente.domain.entity.Cliente;
 import br.com.genciv.cliente.domain.exception.RegraNegocioException;
 import br.com.genciv.cliente.domain.repository.ClienteRepository;
@@ -14,30 +15,39 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CadastrarPessoaFisicaUseCaseTest {
 
-    ClienteRepository repository;
-    CadastrarPessoaFisicaUseCase useCase;
+    private ClienteRepository repository;
+    private CadastrarPessoaFisicaUseCase useCase;
+    private EnderecoRequest endereco;
+    private CadastrarPessoaFisicaRequest request;
 
     @BeforeEach
     void setup() {
         repository = new ClienteRepositoryEmMemoria();
         useCase = new CadastrarPessoaFisicaUseCase(repository);
+
+        endereco = new EnderecoRequest(
+                "12345-789",
+                "Rua Inventada",
+                "100",
+                null,
+                "Madureira",
+                "Rio de Janeiro",
+                "RJ"
+        );
+
+        request = new CadastrarPessoaFisicaRequest(
+                "João Silva",
+                "joao@silva.com",
+                "21",
+                "91234-5678",
+                endereco,
+                "12345678909",
+                "01/02/1980"
+        );
     }
 
-    CadastrarPessoaFisicaRequest request = new CadastrarPessoaFisicaRequest(
-            "João Silva",
-            "joao@silva.com",
-            "21",
-            "91234-5678",
-            "12345-678",
-            "Rua Inventada",
-            "100",
-            null,
-            "Madureira",
-            "Rio de Janeiro",
-            "RJ",
-            "12345678909",
-            "01/02/1980"
-    );
+
+
 
     @Test
     public void deveCadastrarClienteValido() {
@@ -66,13 +76,7 @@ public class CadastrarPessoaFisicaUseCaseTest {
                         "joao@email.com",
                         "11",
                         "999999999",
-                        "12345678",
-                        "Rua A",
-                        "100",
-                        null,
-                        "Centro",
-                        "São Paulo",
-                        "SP",
+                        endereco,
                         null,
                         "01/01/1990"
                 );
@@ -91,13 +95,7 @@ public class CadastrarPessoaFisicaUseCaseTest {
                         "joao@email.com",
                         "11",
                         "999999999",
-                        "12345678",
-                        "Rua A",
-                        "100",
-                        null,
-                        "Centro",
-                        "São Paulo",
-                        "SP",
+                        endereco,
                         null,
                         null
                 );

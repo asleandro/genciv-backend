@@ -9,13 +9,7 @@ public record CadastrarPessoaFisicaRequest(
     String ddd,
     String telefone,
 
-    String cep,
-    String logradouro,
-    String numero,
-    String complemento,
-    String bairro,
-    String cidade,
-    String uf,
+    EnderecoRequest endereco,
 
     String cpf,
     String dataNascimento
