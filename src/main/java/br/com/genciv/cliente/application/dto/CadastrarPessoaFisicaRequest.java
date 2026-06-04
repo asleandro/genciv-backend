@@ -1,7 +1,5 @@
 package br.com.genciv.cliente.application.dto;
 
-import br.com.genciv.cliente.domain.enums.UnidadeFederativa;
-
 public record CadastrarPessoaFisicaRequest(
 
     String nomeCompleto,
