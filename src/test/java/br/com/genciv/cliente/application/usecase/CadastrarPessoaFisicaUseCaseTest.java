@@ -2,10 +2,13 @@ package br.com.genciv.cliente.application.usecase;
 
 import br.com.genciv.cliente.application.dto.CadastrarPessoaFisicaRequest;
 import br.com.genciv.cliente.application.dto.EnderecoRequest;
-import br.com.genciv.cliente.domain.entity.Cliente;
+import br.com.genciv.cliente.domain.entity.PessoaFisica;
 import br.com.genciv.cliente.domain.exception.RegraNegocioException;
 import br.com.genciv.cliente.domain.repository.ClienteRepository;
+import br.com.genciv.cliente.domain.valueobject.CEP;
 import br.com.genciv.cliente.domain.valueobject.CPF;
+import br.com.genciv.cliente.domain.valueobject.Email;
+import br.com.genciv.cliente.domain.valueobject.Telefone;
 import br.com.genciv.cliente.infrastructure.persistence.memory.ClienteRepositoryEmMemoria;
 import br.com.genciv.shared.application.ClockProvider;
 import br.com.genciv.shared.testutil.FakeClockProvider;
@@ -13,8 +16,11 @@ import br.com.genciv.shared.testutil.TestClocks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class CadastrarPessoaFisicaUseCaseTest {
 
@@ -33,7 +39,7 @@ public class CadastrarPessoaFisicaUseCaseTest {
         useCase = new CadastrarPessoaFisicaUseCase(repository, clockProvider);
 
         endereco = new EnderecoRequest(
-                "12345-789",
+                "12345-678",
                 "Rua Inventada",
                 "100",
                 null,
@@ -56,19 +62,39 @@ public class CadastrarPessoaFisicaUseCaseTest {
     @Test
     public void deveCadastrarPessoaFisicaComSucesso() {
 
-        Cliente cliente = useCase.executar(request);
+        PessoaFisica cliente = useCase.executar(request);
 
-        assertNotNull(cliente);
-        assertNotNull(cliente.getId());
-        assertTrue(repository.existePorCpf(new CPF("12345678909")));
-    }
+        assertThat(cliente).isNotNull();
+        assertThat(cliente.getId()).isNotNull();
 
-    @Test
-    public void deveSalvarClienteNoRepository() {
+        assertThat(
+                repository.existePorCpf(
+                        new CPF("12345678909"))
+        ).isTrue();
 
-        useCase.executar(request);
+        assertThat(
+                repository.existePorCpf(
+                        new CPF("123.456.789-09"))
+        ).isTrue();
 
-        assertTrue(repository.existePorCpf(new CPF("12345678909")));
+        assertThat(cliente.getNomeCompleto())
+                .isEqualTo("João Silva");
+
+        assertThat(cliente.getDataNascimento())
+                .isEqualTo(LocalDate.of(1980, 2, 1));
+
+        assertThat(cliente.getEmail())
+                .isEqualTo(new Email("JOAO@SILVA.COM"));
+
+        assertThat(cliente.getTelefone())
+                .isEqualTo(new Telefone("(21)", "91234-5678"));
+
+        assertThat(cliente.getEndereco().getCep())
+                .isEqualTo(new CEP("12345678"));
+
+        assertThat(cliente.getDataCadastro())
+                .isEqualTo(TestClocks.fixed());
+
     }
 
     @Test
@@ -85,9 +111,9 @@ public class CadastrarPessoaFisicaUseCaseTest {
                         "01/01/1990"
                 );
 
-        Cliente cliente = useCase.executar(request);
+        PessoaFisica cliente = useCase.executar(request);
 
-        assertNotNull(cliente);
+        assertThat(cliente).isNotNull();
     }
 
     @Test
@@ -104,9 +130,9 @@ public class CadastrarPessoaFisicaUseCaseTest {
                         null
                 );
 
-        Cliente cliente = useCase.executar(request);
+        PessoaFisica cliente = useCase.executar(request);
 
-        assertNotNull(cliente);
+        assertThat(cliente).isNotNull();
     }
 
     @Test
