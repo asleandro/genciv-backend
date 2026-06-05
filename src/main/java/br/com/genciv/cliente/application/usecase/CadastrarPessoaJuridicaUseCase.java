@@ -28,6 +28,8 @@ public class CadastrarPessoaJuridicaUseCase {
 
         validarNomeEmpresa(request);
 
+        CNPJ cnpj = validarCnpj(request);
+
         String nomeFantasia = request.nomeFantasia();
 
         if (isBlank(nomeFantasia)) {
@@ -44,7 +46,7 @@ public class CadastrarPessoaJuridicaUseCase {
                 EnderecoMapper.toDomain(request.endereco()),
                 nomeFantasia,
                 new RazaoSocial(request.razaoSocial()),
-                new CNPJ(request.cnpj()),
+                cnpj,
                 new InscricaoEstadual(request.inscricaoEstadual()),
                 new InscricaoMunicipal(request.inscricaoMunicipal()),
                 dataCadastro
@@ -52,6 +54,19 @@ public class CadastrarPessoaJuridicaUseCase {
 
         repository.salvar(cliente);
         return cliente;
+    }
+
+    private CNPJ validarCnpj(CadastrarPessoaJuridicaRequest request) {
+
+        if (request.cnpj() == null) return null;
+
+        CNPJ cnpj = new CNPJ(request.cnpj());
+
+        if (repository.existePorCnpj(cnpj)) {
+            throw new RegraNegocioException("Já existe cliente com o CNPJ informado");
+        }
+
+        return cnpj;
     }
 
     private void validarNomeEmpresa(CadastrarPessoaJuridicaRequest request) {
@@ -62,6 +77,19 @@ public class CadastrarPessoaJuridicaUseCase {
             throw new RegraNegocioException(
                     "Informe o nome fantasia ou a Razão Social"
             );
+        }
+
+        if (isBlank(request.razaoSocial())) {
+            return;
+        }
+
+        RazaoSocial razaoSocial = new RazaoSocial(request.razaoSocial());
+
+        if (repository.existePorRazaoSocial(razaoSocial)) {
+            throw new RegraNegocioException(
+                    "Já existe cliente com a razão social informada"
+            );
+
         }
     }
 
