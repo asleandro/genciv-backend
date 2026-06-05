@@ -4,7 +4,8 @@ import br.com.genciv.cliente.domain.exception.InscricaoEstadualInvalidaException
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class InscricaoEstadualTest {
 
@@ -14,7 +15,7 @@ class InscricaoEstadualTest {
 
         InscricaoEstadual ie = new InscricaoEstadual("12.345.678-9");
 
-        assertEquals("123456789", ie.getValor());
+        assertThat("123456789").isEqualTo(ie.getValor());
     }
 
     @Test
@@ -26,7 +27,8 @@ class InscricaoEstadualTest {
                 () -> new InscricaoEstadual(null)
         );
 
-        assertEquals("Inscrição estadual inválida: Inscrição estadual é obrigatória", exception.getMessage());
+        assertThat("Inscrição estadual inválida: Inscrição estadual é obrigatória")
+                .isEqualTo(exception.getMessage());
     }
 
     @Test
@@ -38,7 +40,8 @@ class InscricaoEstadualTest {
                 () -> new InscricaoEstadual("...")
         );
 
-        assertEquals("Inscrição estadual inválida: Valor informado não pode ser vazio", exception.getMessage());
+        assertThat("Inscrição estadual inválida: Valor informado não pode ser vazio")
+                .isEqualTo(exception.getMessage());
     }
 
     @Test
@@ -50,7 +53,8 @@ class InscricaoEstadualTest {
                 () -> new InscricaoEstadual("1")
         );
 
-        assertEquals("Inscrição estadual inválida: IE deve possuir entre 2 e 20 dígitos", exception.getMessage());
+        assertThat("Inscrição estadual inválida: IE deve possuir entre 2 e 20 dígitos")
+                .isEqualTo(exception.getMessage());
     }
 
     @Test
@@ -62,7 +66,8 @@ class InscricaoEstadualTest {
                 () -> new InscricaoEstadual("123456789012345678901")
         );
 
-        assertEquals("Inscrição estadual inválida: IE deve possuir entre 2 e 20 dígitos", exception.getMessage());
+        assertThat("Inscrição estadual inválida: IE deve possuir entre 2 e 20 dígitos")
+                .isEqualTo(exception.getMessage());
     }
 
     @Test
@@ -72,8 +77,8 @@ class InscricaoEstadualTest {
         InscricaoEstadual ie1 = new InscricaoEstadual("12.345.678-9");
         InscricaoEstadual ie2 = new InscricaoEstadual("123456789");
 
-        assertEquals(ie1, ie2);
-        assertEquals(ie1.hashCode(), ie2.hashCode());
+        assertThat(ie1).isEqualTo(ie2);
+        assertThat(ie1.hashCode()).isEqualTo(ie2.hashCode());
     }
 
     @Test
@@ -83,7 +88,7 @@ class InscricaoEstadualTest {
         InscricaoEstadual ie1 = new InscricaoEstadual("123456789");
         InscricaoEstadual ie2 = new InscricaoEstadual("987654321");
 
-        assertNotEquals(ie1, ie2);
+        assertThat(ie1).isNotEqualTo(ie2);
     }
 
     @Test
@@ -92,6 +97,7 @@ class InscricaoEstadualTest {
 
         InscricaoEstadual ie = new InscricaoEstadual("12.345.678-9");
 
-        assertEquals("123456789", ie.toString());
+        assertThat("123456789").isEqualTo(ie.toString());
     }
+
 }

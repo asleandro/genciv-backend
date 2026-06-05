@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RazaoSocialTest {
@@ -62,7 +62,8 @@ public class RazaoSocialTest {
                 () -> new RazaoSocial(" ")
         );
 
-        assertThat(exception.getMessage()).isEqualTo("Razão social não pode ser vazia");
+        assertThat(exception.getMessage())
+                .isEqualTo("Razão social não pode ser vazia");
     }
 
     @Test
@@ -74,7 +75,8 @@ public class RazaoSocialTest {
                 () -> new RazaoSocial(null)
         );
 
-        assertThat(exception.getMessage()).isEqualTo("Razão Social é obrigatória");
+        assertThat(exception.getMessage())
+                .isEqualTo("Razão Social é obrigatória");
     }
 
     @ParameterizedTest
@@ -137,7 +139,8 @@ public class RazaoSocialTest {
                 () -> new RazaoSocial(valor)
         );
 
-        assertThat(exception.getMessage()).isEqualTo("Razão social deve possuir ao menos uma letra");
+        assertThat(exception.getMessage())
+                .isEqualTo("Razão social deve possuir ao menos uma letra");
     }
 
     @Test

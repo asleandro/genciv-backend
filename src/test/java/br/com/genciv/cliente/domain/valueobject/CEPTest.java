@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import javax.swing.plaf.PanelUI;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CEPTest {

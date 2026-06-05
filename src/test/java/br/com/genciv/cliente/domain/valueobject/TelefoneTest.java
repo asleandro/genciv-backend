@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TelefoneTest {
@@ -19,7 +19,8 @@ public class TelefoneTest {
 
         Telefone telefone = new Telefone(DDD_VALIDO, numero);
 
-        assertThat(telefone.toString()).isEqualTo("(21) 99999-9999");
+        assertThat(telefone.toString())
+                .isEqualTo("(21) 99999-9999");
     }
 
     @Test
@@ -68,7 +69,8 @@ public class TelefoneTest {
         Telefone telefone1 = new Telefone(DDD_VALIDO, numero);
         Telefone telefone2 = new Telefone(DDD_VALIDO, numero_formatado);
 
-        assertThat(telefone1.hashCode()).isEqualTo(telefone2.hashCode());
+        assertThat(telefone1.hashCode())
+                .isEqualTo(telefone2.hashCode());
     }
 
     @Test
@@ -102,14 +104,16 @@ public class TelefoneTest {
                 () -> new Telefone(" ", "22222222")
         );
 
-        assertThat(exception.getMessage()).isEqualTo("DDD não pode ser vazio");
+        assertThat(exception.getMessage())
+                .isEqualTo("DDD não pode ser vazio");
 
         ValueObjectInvalidoException exception2 = assertThrows(
                 ValueObjectInvalidoException.class,
                 () -> new Telefone(DDD_VALIDO, " ")
         );
 
-        assertThat(exception2.getMessage()).isEqualTo("Número não pode ser vazio");
+        assertThat(exception2.getMessage())
+                .isEqualTo("Número não pode ser vazio");
 
     }
 
@@ -122,14 +126,16 @@ public class TelefoneTest {
                 () -> new Telefone(null, "22222222")
         );
 
-        assertThat(exception.getMessage()).isEqualTo("DDD não pode ser nulo");
+        assertThat(exception.getMessage())
+                .isEqualTo("DDD não pode ser nulo");
 
         ValueObjectInvalidoException exception2 = assertThrows(
                 ValueObjectInvalidoException.class,
                 () -> new Telefone(DDD_VALIDO, null)
         );
 
-        assertThat(exception2.getMessage()).isEqualTo("Número não pode ser nulo");
+        assertThat(exception2.getMessage())
+                .isEqualTo("Número não pode ser nulo");
 
     }
 
@@ -154,7 +160,8 @@ public class TelefoneTest {
                 () -> new Telefone(DDD_VALIDO, numero)
         );
 
-        assertThat(exception.getMessage()).isEqualTo("Número possui caracteres inválidos");
+        assertThat(exception.getMessage())
+                .isEqualTo("Número possui caracteres inválidos");
     }
 
     @ParameterizedTest(name = "[{index}] DDD inválido: [{0}]")
@@ -171,7 +178,8 @@ public class TelefoneTest {
                 () -> new Telefone(ddd, "22222222")
         );
 
-        assertThat(exception.getMessage()).isEqualTo("DDD possui caracteres inválidos");
+        assertThat(exception.getMessage())
+                .isEqualTo("DDD possui caracteres inválidos");
     }
 
     @ParameterizedTest(name = "[{index}] tamanho inválido: [{0}]")
@@ -189,7 +197,8 @@ public class TelefoneTest {
                 () -> new Telefone(DDD_VALIDO, valor)
         );
 
-        assertThat(exception.getMessage()).isEqualTo("Número com tamanho inválido");
+        assertThat(exception.getMessage())
+                .isEqualTo("Número com tamanho inválido");
 
     }
 
