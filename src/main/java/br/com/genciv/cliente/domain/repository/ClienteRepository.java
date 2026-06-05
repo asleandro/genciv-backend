@@ -1,9 +1,12 @@
 package br.com.genciv.cliente.domain.repository;
 
 import br.com.genciv.cliente.domain.entity.Cliente;
+import br.com.genciv.cliente.domain.entity.PessoaFisica;
+import br.com.genciv.cliente.domain.entity.PessoaJuridica;
 import br.com.genciv.cliente.domain.valueobject.CNPJ;
 import br.com.genciv.cliente.domain.valueobject.CPF;
 import br.com.genciv.cliente.domain.valueobject.ClienteId;
+import br.com.genciv.cliente.domain.valueobject.RazaoSocial;
 
 import java.util.Optional;
 
@@ -13,13 +16,17 @@ public interface ClienteRepository {
 
     Optional<Cliente> buscarPorId(ClienteId id);
 
-    Optional<Cliente> buscarPorCpf(CPF cpf);
+    Optional<PessoaFisica> buscarPorCpf(CPF cpf);
 
-    Optional<Cliente> buscarPorCnpj(CNPJ cnpj);
+    Optional<PessoaJuridica> buscarPorCnpj(CNPJ cnpj);
+
+    Optional<PessoaJuridica> buscarPorRazaoSocial(RazaoSocial razaoSocial);
 
     boolean existePorCpf(CPF cpf);
 
     boolean existePorCnpj(CNPJ cnpj);
+
+    boolean existePorRazaoSocial(RazaoSocial razaoSocial);
 
     void remover(ClienteId id);
 
