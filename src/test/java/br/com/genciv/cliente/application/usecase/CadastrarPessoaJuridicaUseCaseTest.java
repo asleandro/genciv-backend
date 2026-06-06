@@ -30,7 +30,6 @@ public class CadastrarPessoaJuridicaUseCaseTest {
         repository = new ClienteRepositoryEmMemoria();
         clockProvider = new FakeClockProvider(TestClocks.fixed());
         useCase = new CadastrarPessoaJuridicaUseCase(repository, clockProvider);
-
         request = CadastrarPessoaJuridicaRequestBuilder.defaultBuilder().build();
     }
 
@@ -112,6 +111,7 @@ public class CadastrarPessoaJuridicaUseCaseTest {
     }
 
     @Test
+    @DisplayName("deve cadastrar pessoa juridica sem CNPJ")
     public void deveCadastrarPessoaJuridicaSemCnpj() {
 
         CadastrarPessoaJuridicaRequest requestSemCnpj =
@@ -173,9 +173,25 @@ public class CadastrarPessoaJuridicaUseCaseTest {
 
     }
 
-//    devePermitirRazaoSocialComCapitalizacaoDiferente
-//    deveConsiderarRazaoSocialDuplicadaIgnorandoMaiusculasEMinusculas
+    @Test
+    @DisplayName("deve considerar razão social duplicada ignorando maiúsculas e minúsculas")
+    public void deveConsiderarRazaoSocialDuplicadaIgnorandoCapitalizacao(){
 
+        useCase.executar(request);
 
+        CadastrarPessoaJuridicaRequest requestComRazaoSocialDeDiferenteCapitalizacao =
+                CadastrarPessoaJuridicaRequestBuilder
+                        .defaultBuilder()
+                        .comRazaoSocial("GENCIV SISTEMAS LTDA")
+                        .build();
+
+        RegraNegocioException exception =
+                assertThrows(RegraNegocioException.class,
+                        ()-> useCase.executar(requestComRazaoSocialDeDiferenteCapitalizacao)
+                );
+
+        assertThat(exception)
+                .hasMessageContaining("razão social");
+    }
 
 }

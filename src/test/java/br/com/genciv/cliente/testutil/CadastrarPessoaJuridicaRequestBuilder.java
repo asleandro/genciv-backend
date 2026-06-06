@@ -27,8 +27,18 @@ public class CadastrarPessoaJuridicaRequestBuilder {
         return new CadastrarPessoaJuridicaRequestBuilder();
     }
 
+    public CadastrarPessoaJuridicaRequestBuilder comNomeFantasia(String nome) {
+        this.nomeFantasia = nome;
+        return this;
+    }
+
     public CadastrarPessoaJuridicaRequestBuilder semNomeFantasia() {
         this.nomeFantasia = null;
+        return this;
+    }
+
+    public CadastrarPessoaJuridicaRequestBuilder comRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
         return this;
     }
 
