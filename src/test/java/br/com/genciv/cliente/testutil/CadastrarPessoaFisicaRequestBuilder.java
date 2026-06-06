@@ -13,7 +13,7 @@ public class CadastrarPessoaFisicaRequestBuilder {
     private String dataNascimento = "01/02/1980";
 
     private EnderecoRequest endereco = new EnderecoRequest(
-            "12345-789",
+            "12345-678",
             "Rua Inventada",
             "100",
             null,
