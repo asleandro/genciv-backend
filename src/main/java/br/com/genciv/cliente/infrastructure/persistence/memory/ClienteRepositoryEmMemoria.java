@@ -45,7 +45,6 @@ public class ClienteRepositoryEmMemoria implements ClienteRepository {
     @Override
     public Optional<PessoaJuridica> buscarPorCnpj(CNPJ cnpj) {
         return pessoasJuridicas()
-                .map(PessoaJuridica.class::cast)
                 .filter(pj ->
                         pj.getCnpj()
                                 .map(cnpj::equals)
