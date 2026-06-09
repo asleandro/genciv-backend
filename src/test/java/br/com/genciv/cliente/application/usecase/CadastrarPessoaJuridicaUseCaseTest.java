@@ -1,6 +1,7 @@
 package br.com.genciv.cliente.application.usecase;
 
 import br.com.genciv.cliente.application.dto.CadastrarPessoaJuridicaRequest;
+import br.com.genciv.cliente.domain.entity.Contato;
 import br.com.genciv.cliente.domain.entity.PessoaJuridica;
 import br.com.genciv.cliente.domain.exception.RegraNegocioException;
 import br.com.genciv.cliente.domain.repository.ClienteRepository;
@@ -69,6 +70,16 @@ public class CadastrarPessoaJuridicaUseCaseTest {
 
         assertThat(cliente.getDataCadastro())
                 .isEqualTo(TestClocks.fixed());
+
+        assertThat(cliente.getContatos())
+                .hasSize(2);
+
+        assertThat(cliente.getContatos())
+                .extracting(Contato::getNome)
+                .containsExactly(
+                        "Leco Moscardo",
+                        "Didi Efigênica"
+                );
 
     }
 
@@ -175,7 +186,7 @@ public class CadastrarPessoaJuridicaUseCaseTest {
 
     @Test
     @DisplayName("deve considerar razão social duplicada ignorando maiúsculas e minúsculas")
-    public void deveConsiderarRazaoSocialDuplicadaIgnorandoCapitalizacao(){
+    public void deveConsiderarRazaoSocialDuplicadaIgnorandoCapitalizacao() {
 
         useCase.executar(request);
 
@@ -187,11 +198,28 @@ public class CadastrarPessoaJuridicaUseCaseTest {
 
         RegraNegocioException exception =
                 assertThrows(RegraNegocioException.class,
-                        ()-> useCase.executar(requestComRazaoSocialDeDiferenteCapitalizacao)
+                        () -> useCase.executar(requestComRazaoSocialDeDiferenteCapitalizacao)
                 );
 
         assertThat(exception)
                 .hasMessageContaining("razão social");
+    }
+
+    @Test
+    @DisplayName("deve cadastrar pessoa jurídica sem contatos")
+    public void deveCadastrarPessoaJuridicaSemContatos() {
+
+        CadastrarPessoaJuridicaRequest requestSemContatos =
+                CadastrarPessoaJuridicaRequestBuilder
+                        .defaultBuilder()
+                        .semContatos()
+                        .build();
+
+        PessoaJuridica cliente = useCase.executar(requestSemContatos);
+
+        assertThat(cliente).isNotNull();
+        assertThat(cliente.getContatos()).isEmpty();
+
     }
 
 }
