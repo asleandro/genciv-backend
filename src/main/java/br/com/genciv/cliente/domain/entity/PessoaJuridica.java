@@ -4,6 +4,7 @@ import br.com.genciv.cliente.domain.valueobject.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,11 +16,13 @@ public class PessoaJuridica extends Cliente {
     private String nomeFantasia;
     private InscricaoEstadual inscricaoEstadual;
     private InscricaoMunicipal inscricaoMunicipal;
+    private final List<Contato> contatos;
 
     public PessoaJuridica(
             ClienteId id,
             Email email,
             Telefone telefone,
+            List<Contato> contatos,
             Endereco endereco,
             String nomeFantasia,
             RazaoSocial razaoSocial,
@@ -30,6 +33,9 @@ public class PessoaJuridica extends Cliente {
     ) {
         super(id, email, telefone, endereco, dataCadastro);
 
+        this.contatos = contatos == null
+                ? List.of()
+                : List.copyOf(contatos);
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
         this.nomeFantasia = Objects.requireNonNull(nomeFantasia);
@@ -55,6 +61,10 @@ public class PessoaJuridica extends Cliente {
 
     public Optional<CNPJ> getCnpj() {
         return Optional.ofNullable(cnpj);
+    }
+
+    public List<Contato> getContatos(){
+        return List.copyOf(contatos);
     }
 
     public void alterarNomeFantasia(String nomeFantasia) {

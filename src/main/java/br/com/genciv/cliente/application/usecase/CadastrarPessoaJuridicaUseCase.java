@@ -1,7 +1,9 @@
 package br.com.genciv.cliente.application.usecase;
 
 import br.com.genciv.cliente.application.dto.CadastrarPessoaJuridicaRequest;
+import br.com.genciv.cliente.application.mapper.ContatoMapper;
 import br.com.genciv.cliente.application.mapper.EnderecoMapper;
+import br.com.genciv.cliente.domain.entity.Contato;
 import br.com.genciv.cliente.domain.entity.PessoaJuridica;
 import br.com.genciv.cliente.domain.exception.RegraNegocioException;
 import br.com.genciv.cliente.domain.repository.ClienteRepository;
@@ -9,6 +11,7 @@ import br.com.genciv.cliente.domain.valueobject.*;
 import br.com.genciv.shared.application.ClockProvider;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static br.com.genciv.shared.util.StringUtils.isBlank;
 
@@ -36,6 +39,13 @@ public class CadastrarPessoaJuridicaUseCase {
             nomeFantasia = request.razaoSocial();
         }
 
+        List<Contato> contatos = request.contatos() == null
+                ? List.of()
+                : request.contatos()
+                .stream()
+                .map(ContatoMapper::toDomain)
+                .toList();
+
         PessoaJuridica cliente = new PessoaJuridica(
                 ClienteId.novo(),
                 new Email(request.email()),
@@ -43,6 +53,7 @@ public class CadastrarPessoaJuridicaUseCase {
                         request.ddd(),
                         request.telefone()
                 ),
+                contatos,
                 EnderecoMapper.toDomain(request.endereco()),
                 nomeFantasia,
                 new RazaoSocial(request.razaoSocial()),
