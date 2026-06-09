@@ -1,7 +1,11 @@
 package br.com.genciv.cliente.testutil;
 
 import br.com.genciv.cliente.application.dto.CadastrarPessoaJuridicaRequest;
+import br.com.genciv.cliente.application.dto.ContatoRequest;
 import br.com.genciv.cliente.application.dto.EnderecoRequest;
+import br.com.genciv.cliente.domain.enums.TipoContato;
+
+import java.util.List;
 
 public class CadastrarPessoaJuridicaRequestBuilder {
 
@@ -21,6 +25,22 @@ public class CadastrarPessoaJuridicaRequestBuilder {
             "Madureira",
             "Rio de Janeiro",
             "RJ"
+    );
+    private List<ContatoRequest> contatos = List.of(
+            new ContatoRequest(
+                    "Leco Moscardo",
+                    "21",
+                    "98989-7676",
+                    "joao@moscardo.com.br",
+                    TipoContato.COMERCIAL
+            ),
+            new ContatoRequest(
+                    "Didi Efigênica",
+                    "21",
+                    "99999-1010",
+                    "didi@sereinha.com.br",
+                    TipoContato.VENDAS
+            )
     );
 
     public static CadastrarPessoaJuridicaRequestBuilder defaultBuilder() {
@@ -52,6 +72,16 @@ public class CadastrarPessoaJuridicaRequestBuilder {
         return this;
     }
 
+    public CadastrarPessoaJuridicaRequestBuilder comContatos(List<ContatoRequest> contatos) {
+        this.contatos = contatos;
+        return this;
+    }
+
+    public CadastrarPessoaJuridicaRequestBuilder semContatos() {
+        this.contatos = List.of();
+        return this;
+    }
+
     public CadastrarPessoaJuridicaRequest build() {
         return new CadastrarPessoaJuridicaRequest(
                 nomeFantasia,
@@ -62,7 +92,8 @@ public class CadastrarPessoaJuridicaRequestBuilder {
                 cnpj,
                 inscricaoEstadual,
                 inscricaoMunicipal,
-                endereco
+                endereco,
+                contatos
         );
     }
 }
