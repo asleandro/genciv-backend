@@ -34,7 +34,7 @@ public class Contato {
         this.email = email;
         this.tipo = Objects.requireNonNull(
                 tipo,
-                "É obrigatório informar o tipo de contato"
+                "Tipo de contato é obrigatório"
         );
     }
 
@@ -66,7 +66,7 @@ public class Contato {
     }
 
     public void alterarTipo(TipoContato tipo) {
-        this.tipo = Objects.requireNonNull(tipo, "É obrigatório informar o tipo de contato");
+        this.tipo = Objects.requireNonNull(tipo, "Tipo de contato é obrigatório");
     }
 
     private String validarNome(String nome) {
