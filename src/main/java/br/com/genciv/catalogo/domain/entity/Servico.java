@@ -2,6 +2,7 @@ package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.enums.UnidadeMedida;
 import br.com.genciv.catalogo.domain.exception.MaterialDominioException;
+import br.com.genciv.catalogo.domain.exception.ServicoDominioException;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -61,7 +62,7 @@ public class Servico {
 
     private static String requireText(String valor, String mensagem) {
         if (isBlank(valor)) {
-            throw new MaterialDominioException(mensagem);
+            throw new ServicoDominioException(mensagem);
         }
         return valor.trim();
     }
