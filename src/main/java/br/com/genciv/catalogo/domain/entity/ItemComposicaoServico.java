@@ -20,6 +20,10 @@ public class ItemComposicaoServico {
         this.quantidade = validarQuantidade(quantidade);
     }
 
+    public void alterarQuantidade(BigDecimal quantidade){
+        this.quantidade = validarQuantidade(quantidade);
+    }
+
     private BigDecimal validarQuantidade(BigDecimal quantidade) {
 
         Objects.requireNonNull(quantidade, "Quantidade é obrigatória");

@@ -1,6 +1,7 @@
 package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.exception.CatalogoDominioException;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 import static br.com.genciv.shared.util.StringUtils.isBlank;
 
+@Getter
 public class ComposicaoServico {
 
     private final UUID id;
@@ -32,13 +34,6 @@ public class ComposicaoServico {
         return List.copyOf(itens);
     }
 
-    private static String requireText(String valor, String mensagem) {
-        if (isBlank(valor)) {
-            throw new CatalogoDominioException(mensagem);
-        }
-        return valor.trim();
-    }
-
     public void adicionarItem(Material material, BigDecimal quantidade) {
 
         if (materialJaExiste(material)) {
@@ -52,14 +47,9 @@ public class ComposicaoServico {
 
     public void removerItem(Material material) {
 
-        Objects.requireNonNull(material, "Material é obrigatório");
+        ItemComposicaoServico item = buscarItem(material);
 
-        boolean removido = itens.removeIf(item ->
-                item.getMaterial().equals(material));
-
-        if (!removido) {
-            throw new CatalogoDominioException("Material não existe na composição");
-        }
+        itens.remove(item);
 
     }
 
@@ -70,11 +60,37 @@ public class ComposicaoServico {
         );
     }
 
-    public boolean materialJaExiste(Material material) {
+    public void alterarQuantidade(Material material, BigDecimal quantidade) {
+
+        ItemComposicaoServico item = buscarItem(material);
+
+        item.alterarQuantidade(quantidade);
+    }
+
+    private ItemComposicaoServico buscarItem(Material material) {
+        Objects.requireNonNull(material, "Material é obrigatório");
+
+        return itens.stream()
+                .filter(item -> item.getMaterial().equals(material))
+                .findFirst()
+                .orElseThrow(() ->
+                        new CatalogoDominioException(
+                                "Material não existe na composição"
+                        ));
+    }
+
+    private boolean materialJaExiste(Material material) {
         Objects.requireNonNull(material, "Material é obrigatório");
         return itens.stream()
                 .anyMatch(item ->
                         item.getMaterial().equals(material));
+    }
+
+    private static String requireText(String valor, String mensagem) {
+        if (isBlank(valor)) {
+            throw new CatalogoDominioException(mensagem);
+        }
+        return valor.trim();
     }
 
     @Override
