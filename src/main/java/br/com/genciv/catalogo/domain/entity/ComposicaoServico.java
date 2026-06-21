@@ -1,29 +1,30 @@
 package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.exception.CatalogoDominioException;
+import br.com.genciv.catalogo.domain.valueobject.ComposicaoServicoId;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import static br.com.genciv.shared.util.StringUtils.isBlank;
 
 @Getter
 public class ComposicaoServico {
 
-    private final UUID id;
+    private final ComposicaoServicoId id;
     private final Servico servico;
     private String descricao;
     private final List<ItemComposicaoServico> itens;
 
     public ComposicaoServico(
+            ComposicaoServicoId id,
             Servico servico,
             String descricao
     ) {
-        this.id = UUID.randomUUID();
+        this.id = Objects.requireNonNull(id, "Id é obrigatório");
         this.servico = Objects.requireNonNull(servico, "Serviço é obrigatório");
         this.descricao = requireText(descricao, "Descrição é obrigatória");
         this.itens = new ArrayList<>();

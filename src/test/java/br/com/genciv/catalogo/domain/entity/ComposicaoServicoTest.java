@@ -2,6 +2,7 @@ package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.enums.UnidadeMedida;
 import br.com.genciv.catalogo.domain.exception.CatalogoDominioException;
+import br.com.genciv.catalogo.domain.valueobject.ComposicaoServicoId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +42,7 @@ public class ComposicaoServicoTest {
         );
 
         composicaoServico = new ComposicaoServico(
+                ComposicaoServicoId.novo(),
                 drywall,
                 "Parede em gesso acartonado"
         );
@@ -119,7 +121,10 @@ public class ComposicaoServicoTest {
 
         NullPointerException exception = assertThrows(
                 NullPointerException.class,
-                () -> new ComposicaoServico(null, "Descrição")
+                () -> new ComposicaoServico(
+                        ComposicaoServicoId.novo(),
+                        null,
+                        "Descrição")
         );
 
         assertThat(exception)
@@ -132,12 +137,18 @@ public class ComposicaoServicoTest {
 
         CatalogoDominioException vazioException = assertThrows(
                 CatalogoDominioException.class,
-                () -> new ComposicaoServico(drywall, "")
+                () -> new ComposicaoServico(
+                        ComposicaoServicoId.novo(),
+                        drywall,
+                        "")
         );
 
         CatalogoDominioException nuloException = assertThrows(
                 CatalogoDominioException.class,
-                () -> new ComposicaoServico(drywall, null)
+                () -> new ComposicaoServico(
+                        ComposicaoServicoId.novo(),
+                        drywall,
+                        null)
         );
 
         assertThat(vazioException)
