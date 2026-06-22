@@ -1,20 +1,18 @@
 package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.enums.UnidadeMedida;
-import br.com.genciv.catalogo.domain.exception.MaterialDominioException;
 import br.com.genciv.catalogo.domain.exception.ServicoDominioException;
 import br.com.genciv.catalogo.domain.valueobject.ServicoId;
 import lombok.Getter;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static br.com.genciv.shared.util.StringUtils.isBlank;
 
 @Getter
 public class Servico {
 
-    private ServicoId id;
+    private final ServicoId id;
     private String codigo;
     private String descricao;
     private UnidadeMedida unidadeMedida;
@@ -68,5 +66,18 @@ public class Servico {
         return valor.trim();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Servico servico)) return false;
+
+        return Objects.equals(id, servico.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }

@@ -13,7 +13,7 @@ import static br.com.genciv.shared.util.StringUtils.isBlank;
 @Getter
 public class Material {
 
-    private MaterialId id;
+    private final MaterialId id;
     private String codigo;
     private String descricao;
     private UnidadeMedida unidadeMedida;
@@ -67,5 +67,19 @@ public class Material {
         return valor.trim();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Material material)) return false;
+
+        return Objects.equals(id, material.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }
