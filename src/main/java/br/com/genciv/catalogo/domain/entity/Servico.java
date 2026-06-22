@@ -3,6 +3,7 @@ package br.com.genciv.catalogo.domain.entity;
 import br.com.genciv.catalogo.domain.enums.UnidadeMedida;
 import br.com.genciv.catalogo.domain.exception.MaterialDominioException;
 import br.com.genciv.catalogo.domain.exception.ServicoDominioException;
+import br.com.genciv.catalogo.domain.valueobject.ServicoId;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -13,14 +14,14 @@ import static br.com.genciv.shared.util.StringUtils.isBlank;
 @Getter
 public class Servico {
 
-    private UUID id;
+    private ServicoId id;
     private String codigo;
     private String descricao;
     private UnidadeMedida unidadeMedida;
     private boolean ativo;
 
     private Servico(
-            UUID id,
+            ServicoId id,
             String codigo,
             String descricao,
             UnidadeMedida unidadeMedida,
@@ -40,7 +41,7 @@ public class Servico {
             boolean ativo
     ) {
         return new Servico(
-                UUID.randomUUID(),
+                ServicoId.novo(),
                 codigo,
                 descricao,
                 unidadeMedida,
