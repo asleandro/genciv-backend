@@ -2,6 +2,7 @@ package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.exception.CatalogoDominioException;
 import br.com.genciv.catalogo.domain.valueobject.ComposicaoServicoId;
+import br.com.genciv.catalogo.domain.valueobject.ItemComposicaoServicoId;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -42,7 +43,10 @@ public class ComposicaoServico {
         }
 
         this.itens.add(
-                new ItemComposicaoServico(material, quantidade)
+                new ItemComposicaoServico(
+                        ItemComposicaoServicoId.novo(),
+                        material,
+                        quantidade)
         );
     }
 

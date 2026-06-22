@@ -1,6 +1,7 @@
 package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.exception.CatalogoDominioException;
+import br.com.genciv.catalogo.domain.valueobject.ItemComposicaoServicoId;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -10,12 +11,12 @@ import java.util.UUID;
 @Getter
 public class ItemComposicaoServico {
 
-    private final UUID id;
+    private final ItemComposicaoServicoId id;
     private final Material material;
     private BigDecimal quantidade;
 
-    public ItemComposicaoServico(Material material, BigDecimal quantidade) {
-        this.id = UUID.randomUUID();
+    public ItemComposicaoServico(ItemComposicaoServicoId id, Material material, BigDecimal quantidade) {
+        this.id = Objects.requireNonNull(id, "Id é obrigatório");
         this.material = Objects.requireNonNull(material, "Material é obrigatório");
         this.quantidade = validarQuantidade(quantidade);
     }
