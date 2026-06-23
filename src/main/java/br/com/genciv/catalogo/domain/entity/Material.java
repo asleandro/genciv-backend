@@ -6,7 +6,6 @@ import br.com.genciv.catalogo.domain.valueobject.MaterialId;
 import lombok.Getter;
 
 import java.util.Objects;
-import java.util.UUID;
 
 import static br.com.genciv.shared.util.StringUtils.isBlank;
 
@@ -29,7 +28,7 @@ public class Material {
         this.id = Objects.requireNonNull(id, "ID é obrigatório");
         this.codigo = requireText(codigo, "Código é obrigatório");
         this.descricao = requireText(descricao, "Descrição é obrigatória");
-        this.unidadeMedida = Objects.requireNonNull(unidadeMedida, "UnidadeMedida é obrigaória");
+        this.unidadeMedida = Objects.requireNonNull(unidadeMedida, "UnidadeMedida é obrigatória");
         this.ativo = ativo;
     }
 
