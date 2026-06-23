@@ -67,12 +67,29 @@ public class ServicoTest {
     }
 
     @Test
+    public void deveAlterarCodigoDoServico() {
+        servico.alterarCodigo("PAREDE-NOVA");
+
+        assertThat(servico.getCodigo())
+                .isEqualTo("PAREDE-NOVA");
+    }
+
+    @Test
     public void deveAlterarDescricaoDoServico() {
 
         servico.alterarDescricao("Nova descrição");
 
         assertThat(servico.getDescricao())
                 .isEqualTo("Nova descrição");
+    }
+
+    @Test
+    public void deveAlterarUnidadeMedidaDoServico() {
+
+        servico.alterarUnidadeMedida(UnidadeMedida.M);
+
+        assertThat(servico.getUnidadeMedida())
+                .isEqualTo(UnidadeMedida.M);
     }
 
     @Test

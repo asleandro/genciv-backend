@@ -67,12 +67,29 @@ public class MaterialTest {
     }
 
     @Test
+    public void deveAlterarCodigoDoMaterial() {
+        material.alterarCodigo("COD-NOVO");
+
+        assertThat(material.getCodigo())
+                .isEqualTo("COD-NOVO");
+    }
+
+    @Test
     public void deveAlterarDescricaoDoMaterial() {
 
         material.alterarDescricao("Nova descrição");
 
         assertThat(material.getDescricao())
                 .isEqualTo("Nova descrição");
+    }
+
+    @Test
+    public void deveAlterarUnidadeMedidaDoMaterial() {
+
+        material.alterarUnidadeMedida(UnidadeMedida.BOBINA);
+
+        assertThat(material.getUnidadeMedida())
+                .isEqualTo(UnidadeMedida.BOBINA);
     }
 
     @Test

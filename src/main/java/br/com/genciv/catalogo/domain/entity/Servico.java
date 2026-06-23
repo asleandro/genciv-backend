@@ -13,9 +13,9 @@ import static br.com.genciv.shared.util.StringUtils.isBlank;
 public class Servico {
 
     private final ServicoId id;
-    private final String codigo;
+    private String codigo;
     private String descricao;
-    private final UnidadeMedida unidadeMedida;
+    private UnidadeMedida unidadeMedida;
     private boolean ativo;
 
     private Servico(
@@ -55,8 +55,16 @@ public class Servico {
         this.ativo = true;
     }
 
+    public void alterarCodigo(String codigo) {
+        this.codigo = requireText(codigo, "Código é obrigatório");
+    }
+
     public void alterarDescricao(String novaDescricao) {
         this.descricao = requireText(novaDescricao, "Descrição é obrigatória");
+    }
+
+    public void alterarUnidadeMedida(UnidadeMedida unidadeMedida) {
+        this.unidadeMedida = Objects.requireNonNull(unidadeMedida);
     }
 
     private static String requireText(String valor, String mensagem) {

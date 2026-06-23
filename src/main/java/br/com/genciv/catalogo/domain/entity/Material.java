@@ -55,8 +55,19 @@ public class Material {
         this.ativo = true;
     }
 
+    public void alterarCodigo(String novoCodigo) {
+        this.codigo = requireText(
+                novoCodigo,
+                "Código é obrigatório"
+        );
+    }
+
     public void alterarDescricao(String novaDescricao) {
         this.descricao = requireText(novaDescricao, "Descrição é obrigatória");
+    }
+
+    public void alterarUnidadeMedida(UnidadeMedida unidadeMedida) {
+        this.unidadeMedida = Objects.requireNonNull(unidadeMedida);
     }
 
     private static String requireText(String valor, String mensagem) {
