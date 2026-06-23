@@ -1,0 +1,91 @@
+package br.com.genciv.catalogo.domain.entity;
+
+import br.com.genciv.catalogo.domain.enums.UnidadeMedida;
+import br.com.genciv.catalogo.domain.exception.ServicoDominioException;
+import br.com.genciv.catalogo.domain.valueobject.ServicoId;
+import lombok.Getter;
+
+import java.util.Objects;
+
+import static br.com.genciv.shared.util.StringUtils.isBlank;
+
+@Getter
+public class Servico {
+
+    private final ServicoId id;
+    private String codigo;
+    private String descricao;
+    private UnidadeMedida unidadeMedida;
+    private boolean ativo;
+
+    private Servico(
+            ServicoId id,
+            String codigo,
+            String descricao,
+            UnidadeMedida unidadeMedida,
+            boolean ativo
+    ) {
+        this.id = Objects.requireNonNull(id, "ID é obrigatório");
+        this.codigo = requireText(codigo, "Código é obrigatório");
+        this.descricao = requireText(descricao, "Descrição é obrigatória");
+        this.unidadeMedida = Objects.requireNonNull(unidadeMedida, "UnidadeMedida é obrigatória");
+        this.ativo = ativo;
+    }
+
+    public static Servico criar(
+            String codigo,
+            String descricao,
+            UnidadeMedida unidadeMedida,
+            boolean ativo
+    ) {
+        return new Servico(
+                ServicoId.novo(),
+                codigo,
+                descricao,
+                unidadeMedida,
+                ativo
+        );
+    }
+
+    public void desativar() {
+        this.ativo = false;
+    }
+
+    public void ativar() {
+        this.ativo = true;
+    }
+
+    public void alterarCodigo(String codigo) {
+        this.codigo = requireText(codigo, "Código é obrigatório");
+    }
+
+    public void alterarDescricao(String novaDescricao) {
+        this.descricao = requireText(novaDescricao, "Descrição é obrigatória");
+    }
+
+    public void alterarUnidadeMedida(UnidadeMedida unidadeMedida) {
+        this.unidadeMedida = Objects.requireNonNull(unidadeMedida);
+    }
+
+    private static String requireText(String valor, String mensagem) {
+        if (isBlank(valor)) {
+            throw new ServicoDominioException(mensagem);
+        }
+        return valor.trim();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Servico servico)) return false;
+
+        return Objects.equals(id, servico.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+}
