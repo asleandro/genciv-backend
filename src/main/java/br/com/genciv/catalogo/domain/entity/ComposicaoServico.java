@@ -2,7 +2,6 @@ package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.exception.CatalogoDominioException;
 import br.com.genciv.catalogo.domain.valueobject.ComposicaoServicoId;
-import br.com.genciv.catalogo.domain.valueobject.ItemComposicaoServicoId;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -20,7 +19,7 @@ public class ComposicaoServico {
     private String descricao;
     private final List<ItemComposicaoServico> itens;
 
-    public ComposicaoServico(
+    private ComposicaoServico(
             ComposicaoServicoId id,
             Servico servico,
             String descricao
@@ -30,6 +29,17 @@ public class ComposicaoServico {
         this.descricao = requireText(descricao, "Descrição é obrigatória");
         this.itens = new ArrayList<>();
 
+    }
+
+    public static ComposicaoServico criar(
+            Servico servico,
+            String descricao
+    ) {
+        return new ComposicaoServico(
+                ComposicaoServicoId.novo(),
+                servico,
+                descricao
+        );
     }
 
     public List<ItemComposicaoServico> getItens() {
@@ -43,8 +53,7 @@ public class ComposicaoServico {
         }
 
         this.itens.add(
-                new ItemComposicaoServico(
-                        ItemComposicaoServicoId.novo(),
+                ItemComposicaoServico.criar(
                         material,
                         quantidade)
         );

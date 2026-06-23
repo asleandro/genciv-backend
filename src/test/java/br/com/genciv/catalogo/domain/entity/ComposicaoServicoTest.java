@@ -2,7 +2,6 @@ package br.com.genciv.catalogo.domain.entity;
 
 import br.com.genciv.catalogo.domain.enums.UnidadeMedida;
 import br.com.genciv.catalogo.domain.exception.CatalogoDominioException;
-import br.com.genciv.catalogo.domain.valueobject.ComposicaoServicoId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,8 +40,7 @@ public class ComposicaoServicoTest {
                 true
         );
 
-        composicaoServico = new ComposicaoServico(
-                ComposicaoServicoId.novo(),
+        composicaoServico = ComposicaoServico.criar(
                 drywall,
                 "Parede em gesso acartonado"
         );
@@ -53,6 +51,8 @@ public class ComposicaoServicoTest {
     public void deveCriarComposicaoServico() {
 
         assertThat(composicaoServico).isNotNull();
+
+        assertThat(composicaoServico.getId()).isNotNull();
 
         assertThat(composicaoServico.getServico()).isEqualTo(drywall);
 
@@ -121,8 +121,7 @@ public class ComposicaoServicoTest {
 
         NullPointerException exception = assertThrows(
                 NullPointerException.class,
-                () -> new ComposicaoServico(
-                        ComposicaoServicoId.novo(),
+                () -> ComposicaoServico.criar(
                         null,
                         "Descrição")
         );
@@ -137,16 +136,14 @@ public class ComposicaoServicoTest {
 
         CatalogoDominioException vazioException = assertThrows(
                 CatalogoDominioException.class,
-                () -> new ComposicaoServico(
-                        ComposicaoServicoId.novo(),
+                () -> ComposicaoServico.criar(
                         drywall,
                         "")
         );
 
         CatalogoDominioException nuloException = assertThrows(
                 CatalogoDominioException.class,
-                () -> new ComposicaoServico(
-                        ComposicaoServicoId.novo(),
+                () -> ComposicaoServico.criar(
                         drywall,
                         null)
         );

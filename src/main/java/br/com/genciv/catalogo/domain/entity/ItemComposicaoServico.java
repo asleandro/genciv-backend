@@ -14,13 +14,24 @@ public class ItemComposicaoServico {
     private final Material material;
     private BigDecimal quantidade;
 
-    public ItemComposicaoServico(ItemComposicaoServicoId id, Material material, BigDecimal quantidade) {
+    private ItemComposicaoServico(ItemComposicaoServicoId id, Material material, BigDecimal quantidade) {
         this.id = Objects.requireNonNull(id, "Id é obrigatório");
         this.material = Objects.requireNonNull(material, "Material é obrigatório");
         this.quantidade = validarQuantidade(quantidade);
     }
 
-    public void alterarQuantidade(BigDecimal quantidade){
+    public static ItemComposicaoServico criar(
+            Material material,
+            BigDecimal quantidade
+    ) {
+        return new ItemComposicaoServico(
+                ItemComposicaoServicoId.novo(),
+                material,
+                quantidade
+        );
+    }
+
+    public void alterarQuantidade(BigDecimal quantidade) {
         this.quantidade = validarQuantidade(quantidade);
     }
 

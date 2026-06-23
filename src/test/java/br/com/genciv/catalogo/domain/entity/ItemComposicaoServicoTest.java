@@ -33,33 +33,15 @@ class ItemComposicaoServicoTest {
     void deveCriarItemComposicaoServicoValido() {
 
         ItemComposicaoServico item =
-                new ItemComposicaoServico(
-                        id,
+                ItemComposicaoServico.criar(
                         material,
                         BigDecimal.valueOf(10)
                 );
 
-        assertThat(item.getId()).isEqualTo(id);
+        assertThat(item.getId()).isNotNull();
         assertThat(item.getMaterial()).isEqualTo(material);
         assertThat(item.getQuantidade())
                 .isEqualByComparingTo(BigDecimal.TEN);
-    }
-
-    @Test
-    void deveLancarExcecaoQuandoIdForNulo() {
-
-        NullPointerException exception =
-                assertThrows(
-                        NullPointerException.class,
-                        () -> new ItemComposicaoServico(
-                                null,
-                                material,
-                                BigDecimal.ONE
-                        )
-                );
-
-        assertThat(exception)
-                .hasMessageContaining("Id");
     }
 
     @Test
@@ -68,8 +50,7 @@ class ItemComposicaoServicoTest {
         NullPointerException exception =
                 assertThrows(
                         NullPointerException.class,
-                        () -> new ItemComposicaoServico(
-                                id,
+                        () -> ItemComposicaoServico.criar(
                                 null,
                                 BigDecimal.ONE
                         )
@@ -85,8 +66,7 @@ class ItemComposicaoServicoTest {
         NullPointerException exception =
                 assertThrows(
                         NullPointerException.class,
-                        () -> new ItemComposicaoServico(
-                                id,
+                        () -> ItemComposicaoServico.criar(
                                 material,
                                 null
                         )
@@ -102,8 +82,7 @@ class ItemComposicaoServicoTest {
         CatalogoDominioException exception =
                 assertThrows(
                         CatalogoDominioException.class,
-                        () -> new ItemComposicaoServico(
-                                id,
+                        () -> ItemComposicaoServico.criar(
                                 material,
                                 BigDecimal.ZERO
                         )
@@ -119,8 +98,7 @@ class ItemComposicaoServicoTest {
         CatalogoDominioException exception =
                 assertThrows(
                         CatalogoDominioException.class,
-                        () -> new ItemComposicaoServico(
-                                id,
+                        () -> ItemComposicaoServico.criar(
                                 material,
                                 BigDecimal.valueOf(-1)
                         )
@@ -134,8 +112,7 @@ class ItemComposicaoServicoTest {
     void deveAlterarQuantidade() {
 
         ItemComposicaoServico item =
-                new ItemComposicaoServico(
-                        id,
+                ItemComposicaoServico.criar(
                         material,
                         BigDecimal.ONE
                 );
@@ -150,8 +127,7 @@ class ItemComposicaoServicoTest {
     void deveLancarExcecaoAoAlterarQuantidadeParaNula() {
 
         ItemComposicaoServico item =
-                new ItemComposicaoServico(
-                        id,
+                ItemComposicaoServico.criar(
                         material,
                         BigDecimal.ONE
                 );
@@ -170,8 +146,7 @@ class ItemComposicaoServicoTest {
     void deveLancarExcecaoAoAlterarQuantidadeParaZero() {
 
         ItemComposicaoServico item =
-                new ItemComposicaoServico(
-                        id,
+                ItemComposicaoServico.criar(
                         material,
                         BigDecimal.ONE
                 );
@@ -190,8 +165,7 @@ class ItemComposicaoServicoTest {
     void deveLancarExcecaoAoAlterarQuantidadeParaNegativa() {
 
         ItemComposicaoServico item =
-                new ItemComposicaoServico(
-                        id,
+                ItemComposicaoServico.criar(
                         material,
                         BigDecimal.ONE
                 );
